@@ -28,9 +28,6 @@ public class DigitSum2_6 {
 				
 		//print the result
 		System.out.println ("The sum of the digits is " + digitSum );
-		System.out.println(hundreds);
-		System.out.println(tens);
-		System.out.println(ones);
 	}
 
 }
