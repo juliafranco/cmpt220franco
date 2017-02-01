@@ -1,5 +1,3 @@
-package two;
-
 import java.util.Scanner;
 
 public class Vowel4_13 {

@@ -1,5 +1,3 @@
-package two;
-
 import java.util.Scanner;
 
 public class Days3_5 {
