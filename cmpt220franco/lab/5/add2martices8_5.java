@@ -1,5 +1,3 @@
-package five;
-
 import java.util.Scanner;
 
 public class add2martices8_5 {
