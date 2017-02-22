@@ -1,5 +1,3 @@
-package five;
-
 import java.util.Scanner;
 
 public class GCD7_14 {
