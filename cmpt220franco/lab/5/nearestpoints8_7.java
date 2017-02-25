@@ -3,22 +3,25 @@ import java.util.Scanner;
 public class nearestpoints8_7 {
 	public static void main (String[] args){
 		//see listing 8.3, rework for three-d
-		//test with double [][] points = {{-1,0,3}, {-1, -1, -1},{4,1,1},
-		//{2,0.5,9}, {3.5, 2, -1}, {3, 1.5, 3},{-1.5, 4, 2},{5.5, 4, -0.5}};
+		//test with 
+		double [][] points = {{-1,0,3}, {-1, -1, -1},{4,1,1},
+		//
+		{2,0.5,9}, {3.5, 2, -1}, {3, 1.5, 3},{-1.5, 4, 2},{5.5, 4, -0.5}};
 		//distance formula is sqrt ( (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2 )
 		
 		Scanner input = new Scanner(System.in);
-		System.out.print("Enter the number of points: ");
-		int numberOfPoints = input.nextInt();
-		
+		//System.out.print("Enter the number of points: ");
+		//int numberOfPoints = input.nextInt();
+		int numberOfPoints = 8;
+
 		// Create an array to store points
-		double[][] points = new double[numberOfPoints][3];
+/*		double[][] points = new double[numberOfPoints][3];
 		System.out.print("Enter " + numberOfPoints + " points: ");
 		for (int i = 0; i < points.length; i++) {
 			points[i][0] = input.nextDouble();
 			points[i][1] = input.nextDouble();
 			points[i][2] = input.nextDouble();
-		}
+		}*/
 		// p1 and p2 are the indices in the points' array
 		int p1 = 0, p2 = 1; // Initial two points
 		double shortestDistance = distance(points[p1][0], points[p1][1], points[p1][2],
@@ -29,6 +32,7 @@ public class nearestpoints8_7 {
 			for (int j = i + 1; j < points.length; j++) {
 				double distance = distance(points[i][0], points[i][1], points[i][2],
 						points[j][0], points[j][1], points[j][2]); // Find distance
+				// JA: Your arguments don't match the parameters in the method
 				
 				if (shortestDistance > distance) {
 					p1 = i; // Update p1

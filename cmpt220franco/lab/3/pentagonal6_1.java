@@ -1,6 +1,6 @@
 public class pentagonal6_1 {
 	public static void main (String[] args){
-		int NUMBER_OF_PENT = 50;
+		int NUMBER_OF_PENT = 100;
 		
 		System.out.println("The first " + NUMBER_OF_PENT + " pentagonal number are: \n" );
 		//printPenNums (NUMBER_OF_PENT);
