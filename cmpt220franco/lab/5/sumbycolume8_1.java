@@ -10,7 +10,7 @@ public class sumbycolume8_1 {
 		System.out.println("Enter a " + matrix.length + " by " + matrix[0].length + " matrix row by row ");
 		for (int i = 0; i < matrix.length; i++)
 			for (int j = 0; j < matrix[i].length; j++)
-				matrix[i][j] = input.nextInt();
+				matrix[i][j] = input.nextInt(); // JA: This should read double, not int
 		for (int k = 0; k < matrix[0].length; k++){ //k is the column index
 			double total = sumColumn (matrix, k);
 			System.out.println("The sum of column " + (k + 1) + " is " + total);
