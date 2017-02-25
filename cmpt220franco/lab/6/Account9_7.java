@@ -72,12 +72,12 @@ class Account{
 	}
 
 	/** takes out specified amount */
-	public double withdraw ( double withdrawAmount){
+	double withdraw ( double withdrawAmount){
 		return balance -= withdrawAmount;
 	}
 	
 	/** puts in a  specified amount */
-	public double deposit ( double depositAmount){
+	double deposit ( double depositAmount){
 		return balance += depositAmount;
 	}
 }
