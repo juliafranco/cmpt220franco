@@ -1,13 +1,8 @@
-package code;
-
 public class Notes {
 	public static void main (String[] args){
 		//Immediate To-Do List:
 			//*Write more locations,
-				//draw out some kind of map of this world.
-				//including the Staples/DOIW ending.
 			//*Probably should draw up location class UML guide.
-			//*After a few more locations, write back function. 
 		
 	//Cove Wrench Drop: The Game.
 		
@@ -19,7 +14,7 @@ public class Notes {
 				//car keys(??), the wrong wrench (can end the game.)
 					//"This isn't the wrench you dropped, but it's a wrench. Technically,
 						// you did what you set out to do. So you can put it back and go about 
-						//your life or keep trying to get the one you dropped. Keep trying y/n?
+						//your life or keep trying to get the one you dropped. Keep trying y/n? [pass quit code probably.]
 							//y: It it a matter of honor. You need that wrench.
 							//n: you put the other wrench back and go on with your life. No one needs to know.
 								//this quits you out of the game.
@@ -47,21 +42,23 @@ public class Notes {
 			//places around school, maybe across the street. 
 			//a	//the shop
 					//Contains cabinets and/or drawers to rummage through
-			//b	//the stage
+			//b	//the stage (4)
 			//c	//the green room
 			//d	//the bathroom [only the one with the closet.]
 				//the cove
 			//e		//the walkway (0)
-			//f		//under the lights/spot op area.
-			//g		//the depths? Can you go down there??
+			//f		//under the lights/spot op area. (3)
+					//the depths? Can you go down there??
 						//this might not be somewhere you can go, but somewhere that holds the items down there.
+						//this is a container which contains some items. You "reach" into the container but it's a special class?
+			//g //Campus security.
 			//h	//the light booth (1)
 			//i	//the roof
 			//j	//the couches
 					//can rummage through the couch for things.
 					//specific couches hold specific items, pick a number of the couch to rummage in.
 			//k	//the theatre itself (2)
-			//l	//the rotunda
+			//l	//the green
 				//K1
 			//m-q		//living room, kitchen, upstairs landing, bathrooom ,bedroom B
 			//r	//the construction site
@@ -74,8 +71,8 @@ public class Notes {
 					//has a few items that you could buy and eat. (like a sandwich or two and peanut noodles.)
 					//you'd probably need the car to get there.
 			//w //Abandoned Staples which leads to a dimension of infinite wrenches. 
-			//x //the parking lot where Home Depot & etc are
-			//y //Campus security.
+			//x&y//the parking lot where Home Depot & etc are
+			
 		
 			//Ability to go up and down places
 			//also open cabinets and drawers 
@@ -84,9 +81,7 @@ public class Notes {
 			//hold items. 
 		
 //V.	//various commands- tied to methods/functions-
-			//up, down, left, right, fowards, about face & backwards, go back [fully functioning], use [for you item]
-				//for back, store locations/numbers in an array in sequence, when player goes back, go to [i]length - 2,
-					//delete last time. 
+			//up, down, left, right, fowards, about face & backwards, go back [fully functioning][DONE.], use [for you item]
 			//pick up & put down [items]
 			//combine for items
 			//can buy items- places that sell them will have prices attached to them [subclass of buyable item]
@@ -163,6 +158,7 @@ public class Notes {
 						//"That's useful, but you know it's just a simplification of reality.
 		//26	//either Ally's keys, Michael's keys, or his wallet.
 					//if it's Ally's keys and you find Ally, and give them back, she gives you a wrench you can replace and you're home free??
+						//gives you a y/n option. 
 		
 //VII.	//avoid people like Matt, Marc, and Jim because SHAME. Also custodian, Gus, who hears the clinking and clanking
 			//throw in Matthew Johnson, the "God Amoungst Men"?
@@ -186,6 +182,7 @@ public class Notes {
 		//C		//cabinets
 		//D		//store shelves. 
 		//E		//the box in the lightbooth??
+		//F		//the depths of the Cove??
 			//holds items
 			//the location hold containers as an object.
 			//accessed by the "rummage" command.
