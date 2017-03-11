@@ -1,5 +1,3 @@
-package code;
-
 import java.util.Scanner;
 
 public class MainFile {
