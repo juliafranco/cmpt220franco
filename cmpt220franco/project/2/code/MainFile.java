@@ -1,11 +1,13 @@
+package code;
+
 import java.util.Scanner;
 
 public class MainFile {
 	public static void main (String[] args){
 		Person player = new Person (); //creates the object of the player.
 		printOpening(); //calls the function to print the introduction of the game.
-		Person.renderLocation(player.locationIndex);//prints the description of the default location.
 		player.beenTo.push(player.locationIndex);//adds the initial location to the stack of integers
+		player.renderLocation();//prints the description of the default location.
 		
 		/**game loop driving the whole thing.*/
 		while (true){
@@ -13,21 +15,31 @@ public class MainFile {
 			/**functions that need to run or conditions that need to be checked
 			 * before it can ask for input.*/
 			
-			if (player.locationIndex == 5){// causes game to kick out after rending the location details, 5 being the Abandoned Staples,
-				MainFile.displayQuit(1);
-				break;}
+			if (!player.renderLocation)
+				//There's certain conditions where rendering a location or set of circumstances causes the game to end. This finishes that- breaking 
+				//out of the game loop. 
+				break;
 			
 			String todo = getInput();//calls the function for user input and saves it as a string variable.
 			
 			/**basic game functions*/
 			if (todo.equals("quit")){//if the user wants to get out of the game.
-				displayQuit(0);//calls the quit function with the correct ending (quit code, tells switch ending to print)
+				if (player.locationIndex == 12)//this is the ending if you quit out of the Depths of the Hudson.
+					displayQuit(8);
+				else 
+					displayQuit(0);//calls the quit function with the correct ending (quit code, tells switch ending to print)
 				break;
 			} else if (todo.equals("Nirvana?")){//this is a random ending used to test if switch cases had to be sequential and left because it's funny.
 				displayQuit(4);
 				break;
 			} else if (todo.equals("help"))//prints help message.
 				displayHelp();//calls the function that prints the help message. 
+			
+			else if (todo.equals("maul")){
+				for (int i =0; i < 30; i++){
+					int maulMe = getRandomNumber(30);
+					System.out.println(maulMe);}
+				}
 			
 			/**navigation commands*/
 			else if (todo.equals("up")) //executes the up command
@@ -38,9 +50,13 @@ public class MainFile {
 				player.moveLocation(2);//2 is the column for forward
 			else if (todo.equals("backward"))//executes the backward command
 				player.moveLocation(3);//3 is the column for backward.
-			else if (todo.equals("back"))
-				player.goBack();
-			else if (todo.equals("current"))
+			else if (todo.equals("left"))//executes the left command
+				player.moveLocation(4);//4 is the column for left.
+			else if (todo.equals("right"))//executes the right command
+				player.moveLocation(5);//5 is the column for right.
+			else if (todo.equals("back"))//takes the player back to the previous location.
+				player.goBack(); //calls the go back function.
+			else if (todo.equals("current"))//renders the current location. 
 				player.renderCurrentLocation();
 			else //this is the else for the whole loop.
 				System.out.println("\nYou have entered an invalid command.");//because if you did, you wouldn't be here.
@@ -80,16 +96,17 @@ public class MainFile {
 				+ " \nback [goes back to previous location]\n");
 		System.out.println("Commands Related to Items:");
 		System.out.print("examine");
-//		if (itemHelp) //this is a boolean value that will flip when you pick up your first item.
+//		if (itemHelp){ //this is a boolean value that will flip when you pick up your first item.
 //			System.out.println(" [the location for items or add an item to name to examine the item itself],");//this line is full.
 //		    System.out.println("discard [followed by name to put down an item], \ntransfer [followed by name, to secondary storage],");
 //		    System.out.println("combine [followed by the items you wish to combine], \ninventory [displays inventory],");
-//		    System.out.println("seperate [followed by the items you wish to seperate],");
-//		    System.out.println("descend [followed by name, use an item to attempt to get the wrench.]");
+//		    System.out.println("descend [followed by name, use an item to attempt to get the wrench.]");}
+//		if(combineHelp)
+//			 System.out.println("separate [followed by the items you wish to seperate],");			
 		System.out.println("\nGeneral Commands:");
 		System.out.println("help, quit, current (to display location.)");
-
-		
+//		if (itemHelp)
+//			System.out.println("points [displays score]");
 	}
 	public static void displayQuit(int quitCode) {//displays the proper ending of the game
 		switch (quitCode){//there will be different quit messages for different endings of the game.
@@ -110,13 +127,18 @@ public class MainFile {
 		case 4: System.out.println("\nCheeseman you lose. Kurt Colbain is disappointed."); break; //this is a random ending used to
 				      //test if switch cases had to be sequential and left because it's funny.
 		case 5: System.out.println("\nYou put the other wrench back and go on with your life. You retrieved "
-				+ "one wrench. \nNo one needs to know there's a second one down there..."); //break //this is the "other wrench" ending. 
+				+ "one wrench. \nNo one needs to know there's a second one down there..."); break; //this is the "other wrench" ending. 
 		case 6: System.out.println("You take the wrench you bought with your hard earned...er... found... "
 				+ "cash and put it back \nwith the rest of the tools. No one will know what happened, but you "
-				+ "could have used that \nmoney for other things..."); //break; //ending where you decide to buy another wrench
-		case 7: System.out.println("[ending where you are dramatic and leave theatre.... for like a week.]");
+				+ "could have used that \nmoney for other things..."); break; //ending where you decide to buy another wrench
+		case 7: System.out.println("[ending where you are dramatic and leave theatre.... for like a week.]"); break; //ending where you admit your guilt.
+		case 8: System.out.println("\nYeah... swimming around in the Hudson is definitely a better idea than "
+				+ "dealing with this \nwrench situation. Time to change your mailing adress to the bottom of "
+				+ "the Hudson, grow a third \narm, and live out your days, occasionally wondering what might have been."); break; 
+					//ending where you quit from the depths of the Hudson
+		case 9: System.out.println("Surprise! You get mauled by a goose. You definitely lose."); //break; 
+					//obviously, this is what happens if you get mauled by a goose on the green.
 		} //closes the switch statement
-		
 	}//closes the displayQuit method
     public static void displayCredits() {
     	System.out.println("-------------------------------------------------");
@@ -125,118 +147,7 @@ public class MainFile {
     	System.out.println("");
     	System.out.println("Copyright Julia Franco, March 2017.");
 	}//closes display credits method.
-}//closes the MainFile class. 
-
-/**Classes, probably will split to own files.*/
-//Location Class, holds all the location related data. 
-class Location{
-	String locationName;
-	String locationDescription;
-	String altDescription; //what it shows if you've been there.
-	Boolean isVisited = false; //tracks if you've been somewhere before.
-//	Item[] items; //holds a list of item objects present in the location.
-//	Container[] receptacle; //holds a list of containers present in the location//...make this an inherited item??
-	
-	Location( String placeName, String placeDescript, String altDescript){
-		locationName = placeName;
-		locationDescription = placeDescript;
-		altDescription = altDescript;
-		//do I need to do the items? I'm going to hold off on it for now. especially because this needs to hold a list of indeterminate size.
-	}
-	static Location[] places = //list of locations in the game.
-		/**0*/{ new Location ( "The Cove Walkway" , "You are standing on the walkway in the cove, at the "
-	            + "scene of your crime, next to the ladder to go \ndown. The walkway extends forward to where "
-				+ "the lights hang from. Past the walkway and its railings \nis the top of the ceiling of the theatre "
-	            + "below you. And under the walkway is the deepest depth of \nthe cove where your wrench lies." 
-				, "You're back on the walkway, the area with the lights in front of you, with the ladder to go "
-				+ "down right \nthere. And god, why is it so hot up here??"),
-		/**1*/  new Location ("The Light Booth", "It's cold down here. The light board sits on the counter "
-				+ "in front of the window overlooking the empty \ntheatre. There's a bunch of different stage "
-				+ "lights just sitting around as well as a bunch of other things. "
-				+ "\nThere's the ladder to go up to the cove, and at the other end are the stairs to go down to the theatre. "
-				+ "\nTo your left, a door marked 'No exit, roof access only.'" 
-				, "You return to the light booth. A box sits at the base of the ladder up to the cove. "
-				+ "\nNow that you look, there's a bunch of other things that maybe you could use here. "
-				+ "\nAnd there's always the stairs down to the theatre and the door to the roof on your right."),
-		/**2*/  new Location("The Theatre", "theatre description", "alt description"),
-		/**3*/  new Location("The Area of the Cove where the Lights Hang", "You duck under the pipe and sit on the ground, " 
-		        + "between the lights, looking down at the theatre below.\n This is where people run the spot lights from "
-				+ "-and someone left some stuff here. Maybe it's useful...." , "Alt description"),
-		/**4*/  new Location("The Stage", "You find yourself standing on the stage, basking in the glory of finally getting "
-				+ "your moment in \nthe spotlight.... except there's no spotlight on and your back is to the empty theatre "
-				+ "but whatever. \nIn front of you is the backstage scene shop, to your left is out to the green room off stage.",
-				"[alt here]"),
-		/**5*/  new Location("The Abandoned Staples", "You break into the abandoned Staples next to the Home Depot. There's "
-				+ "a swirling, glowing light. \nAnd then wrenches as far as the eye can see. This is the dimension of infinite "
-				+ "wrenches. You reach out to ", "You actually managed to get back here. You're not supposed to be able to do that.")};
-	static int[][] navMatrix = //used to determine where to go based on the player's location (row) and inputed command (column). 
-			//(locations noted by index in locations list)
-			//"-1" denotes nothing in that direction
-	//    up down for*back                                      *forward
-/**0*/	{{ 5,  1,  3, -1}, //cove walkway //the "5" is temporary until it can go where it belongs.
-/**1*/	 { 0,  2, -1, -1}, //light booth //right will be out to the roof.
-/**2*/   { 1, -1,  4, -1}, //theatre //backward will be out to the couches. 
-/**3*/   {-1, -1, -1,  0}, //spot op area
-/**4*/   {-1, -1, -1,  2}, //stage //forward is shop, right is green room
-/**5*/   {-1, -1, -1, -1} //the abandoned Staples. //backwards to Parking Lot II
-			};
-	public static void changeVisited(int i){//changes isVisited from false to true when the player goes there.
- 		places[i].isVisited = true;
-	}
-	
-	//gonna need methods to add and subtract items from the place but I'll deal with this later.
-} //closes out the location class.
-//Person class holds all data related to people within the game including the player.
-class Person{
-	int locationIndex; //the current location is referenced by its index in the locations list. This holds that index.
-	//will have at least a name. 
-	
-	//the player probably will inherent other things {inventory}, and the others will have a separate things.
-		//2 subclasses
-	Person (){//no args  constructor with the default location
-		locationIndex = 0; //the default location for a person.
-	}	
-	Person(int intLocation){//Constructor to set opening location.
-		locationIndex = intLocation;
-	}
-	
-	StackOfIntegers beenTo = new StackOfIntegers(); //creates a new StackOfIntegers to be used for back function.
-	
-	public void moveLocation (int direction){//used to move player around the map
-		if (Location.navMatrix[this.locationIndex][direction] >= 0){
-			this.locationIndex = Location.navMatrix[this.locationIndex][direction];
-			beenTo.push(this.locationIndex); //adds the index to the list of places the player's been to.
-			renderLocation(this.locationIndex);//prints the details of the location.
-		} else
-			nothingThere(this.locationIndex);//prints out a message there's  nothing there.
-	}
-	public static void renderLocation (int i){//prints out the details of your location
-		System.out.println("");
-		System.out.println("Your location is " + Location.places[i].locationName);
-		System.out.println("");
-		if (Location.places[i].isVisited) //if you've been here.
-			System.out.println(Location.places[i].altDescription);
-		else {//if you haven't.
-			System.out.println(Location.places[i].locationDescription);
-			Location.changeVisited(i);//changes it so it knows that now you have been here.
-		}
-	}
-    public void nothingThere (int i){//prints an error message if you try to go in a direction without a defined location.
-    	System.out.println("");
-    	System.out.println("There is nothing in that direction of " + Location.places[i].locationName);
+    public static int getRandomNumber (int multFactor){
+    	return (int)(Math.random() * multFactor);
     }
-    public void goBack (){
-    	if (beenTo.getSize() == 1)//the only item in the list is the zero. If it wasn't there, it would throw exceptions.
-    		System.out.println("\nYou can't go back any further.");
-    	else {
-    		beenTo.pop();//remove last item in stack
-    		/**returns the top index in the stack, sets it as the player's 
-    		 * current location and renders the location */
-    		renderLocation(this.locationIndex = beenTo.peek());
-    	}    	
-    }
-    public void renderCurrentLocation(){//prints the name of your current location.
-    	System.out.println("\nYour current location is "+ Location.places[this.locationIndex].locationName);
-    	//maybe add the initial description of the place?
-    }
-}//closes out the person class. 
+}//closes the MainFile class. }//closes out the person class. 

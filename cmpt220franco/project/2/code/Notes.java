@@ -1,15 +1,22 @@
+package code;
+
 public class Notes {
 	public static void main (String[] args){
-		//Immediate To-Do List:
-			//*Write more locations,
-			//*Probably should draw up location class UML guide.
-		
+	}
+	
+	/**TODO:
+		//*WRITE MORE LOCATIONS.
+		 *Probably should draw up location class UML guide.
+		 *Items- examine for them (can't pick up yet.)
+		 *Containers! - can rummage (tells you what's there), can't pick up.
+		 */
+	
 	//Cove Wrench Drop: The Game.
-		
-//I.	//Story: You have dropped the last wrench through the grating. Run around and try to get things to get the wrench back.
+/**I.  */ void Story(){
+		//You have dropped the last wrench through the grating. Run around and try to get things to get the wrench back.
 			//alternate ending where you decide to just buy more wrenches?
-		
-//II.	//Combine items, get the wrench. 
+}
+/**II. */ void CombineItems_GetIheWrench(){ 
 			//there's also other things down there that you can grab
 				//car keys(??), the wrong wrench (can end the game.)
 					//"This isn't the wrench you dropped, but it's a wrench. Technically,
@@ -28,19 +35,18 @@ public class Notes {
 				//can only combine what you have
 				//some way to check if you're combining the same item
 				//some combinations need three items
-					//tell you it didn't work or what you need?
-		
-//III.	//What you need to get the wrench.
+					//tell you it didn't work or what you need?		
+/**II.V	//What you need to get the wrench.
 			//needs to be long enough to reach the wrench
 			//need some way of attracting/capturing the wrench
 				//if you have those, randomly determine if you grab the wrench
 				// if you can see the wrench, that increases the chance of getting the thing.
 			//determine what combinations of items can get the wrench.
-			//once you get the wrench, it automatically ends the game.
-		
-//IV.	//Locations: 
+			//once you get the wrench, it automatically ends the game.*/
+}		
+/**III.*/ void Locations(){ 
 			//places around school, maybe across the street. 
-			//a	//the shop
+			//a	//the shop (7)
 					//Contains cabinets and/or drawers to rummage through
 			//b	//the stage (4)
 			//c	//the green room
@@ -53,12 +59,13 @@ public class Notes {
 						//this is a container which contains some items. You "reach" into the container but it's a special class?
 			//g //Campus security.
 			//h	//the light booth (1)
-			//i	//the roof
-			//j	//the couches
+			//i	//the roof (9)
+			//j	//the couches (6)
 					//can rummage through the couch for things.
 					//specific couches hold specific items, pick a number of the couch to rummage in.
 			//k	//the theatre itself (2)
-			//l	//the green
+			//l	//the green (8)
+					//include a random chance of outright getting MAULED BY A GOOSE.
 				//K1
 			//m-q		//living room, kitchen, upstairs landing, bathrooom ,bedroom B
 			//r	//the construction site
@@ -70,17 +77,21 @@ public class Notes {
 			//v	//Lola's
 					//has a few items that you could buy and eat. (like a sandwich or two and peanut noodles.)
 					//you'd probably need the car to get there.
-			//w //Abandoned Staples which leads to a dimension of infinite wrenches. 
-			//x&y//the parking lot where Home Depot & etc are
-			
+			//w //Abandoned Staples which leads to a dimension of infinite wrenches. (5)
+					//"glitch" where you end up with a hundred trillion wrenches in the cove 
+						//does not actually put a hundred trillion wrench objects in the cove. 
+						//game ends by you getting smothered by wrenches. 
+			//x&y//the parking lot where Home Depot & etc are (10 & 11)
+			//z  //the depths of the hudson (12)
 		
 			//Ability to go up and down places
 			//also open cabinets and drawers 
 			//This would be a class
 			//remembers where you've been
 			//hold items. 
-		
-//V.	//various commands- tied to methods/functions-
+}
+/**IV. */ void commands(){
+		//tied to methods/functions-
 			//up, down, left, right, fowards, about face & backwards, go back [fully functioning][DONE.], use [for you item]
 			//pick up & put down [items]
 			//combine for items
@@ -90,8 +101,8 @@ public class Notes {
 				//when you pick up your first item, shows the drop, when you have two tells you about the combine	
 				//maybe the first time you run into someone, gives you the talk.
 				//when you've found money, tells you about buying things. 
-		
-//VI.	//Items.
+}
+/**V.  */ void Items(){
 			//start out with nothing, including money....
 			//different items will have different amounts of points. They're for the fun of it.
 			//have a name, point value, some will have a number of uses or a quantity, depending on how I want to work it. 
@@ -112,9 +123,9 @@ public class Notes {
 					//if you find more money, it'll update. 
 						//can you find more money??
 					//money is its own separate data field. 
-		//2		//the grabber
+		//2		//the grabber [cove walkway]
 		//3		//a worklight
-		//4		//an extension cord
+		//4		//an extension cord [stage]
 		//5		//rope
 		//6		//pvc pipe
 		//7		//2 x 4
@@ -123,12 +134,13 @@ public class Notes {
 					//can theoretically buy more but it's 35 dollars. 
 						//you can't afford it.
 		//9	   //chewing gum
-		//10   //eggs [a carton of a dozen.]
+		//10   //eggs [a carton of a dozen.][kitchen]
 					//if you're going to drop it, it would have the same mechanics as trying to retrieve something.
 					//"Great. Now whatever's down there is covered in egg."
 						//the code remember that there's egg down there and affects game play.
 							//makes it harder to get the wrench.
 						//you can drop as many eggs as you want, won't make a difference.
+						//count how many eggs you have-  changes to empty carton when empty.
 		//11	//a copy of Hamlet
 		//12	//a drill
 					//forward and reverse, or based on context??
@@ -159,13 +171,20 @@ public class Notes {
 		//26	//either Ally's keys, Michael's keys, or his wallet.
 					//if it's Ally's keys and you find Ally, and give them back, she gives you a wrench you can replace and you're home free??
 						//gives you a y/n option. 
-		
-//VII.	//avoid people like Matt, Marc, and Jim because SHAME. Also custodian, Gus, who hears the clinking and clanking
+		//27	//Goose Repellent
+					//if you have the goose repellent, it disables your ability to get mauled. The minute you don't have it....
+						//even if it's in your secondary inventory...
+}
+/**VI. */ void People(){	
+			//avoid people like Matt, Marc, and Jim because SHAME. Also custodian, Gus, who hears the clinking and clanking
 			//throw in Matthew Johnson, the "God Amoungst Men"?
+			//a house mate?
 			//this would be a class
 			//be able to talk to them, have conversations, cover guilt. 
 			//randomly generate their locations/movements?
 				//they will have a range of places. You won't find Marc in K1.
+					//an array storing the indexes of all the places they could be
+						//cashier would just have their place of employment unless they were a student or something....
 				//ending where they find out and get kicked out of MCCTA??
 					//"Hey do you have a wrench?" "I totally didn't just drop one through the grating..."
 					//but this isn't realistic..... unless you kick yourself out because you're too dramatic.
@@ -174,8 +193,8 @@ public class Notes {
 		//there could also be cashiers at the stores you can buy things from??
 			//Obviously they stay in the same location. 
 				//and are not a threat.
-		
-//VIII.	//Container class:
+}
+/**VII */ void ContainerClass(){
 			//examples:
 		//A		//couches
 		//B		//drawers
@@ -187,18 +206,13 @@ public class Notes {
 			//the location hold containers as an object.
 			//accessed by the "rummage" command.
 			//show up when you examine the location for things. 
-		
-//IX.	//"glitch" where you end up with a hundred trillion wrenches in the cove 
-			//portal to dimension of infinite wrenches???
-				//in the abandoned Staples.
-				//does not actually put a hundred trillion wrench objects in the cove. 
-				//game ends by you getting smothered by wrenches. 
-
-//X.	//Implementation: 
+				//but seperately from the items.
+}
+/**VIII*/ void Implementation(){ 
 			//start with locations and navigation writing functions and methods and objects
 			//introduce items and what happens when you use them as well as containers. 
 				//determine solution[s] to getting the wrench
 				//introduce item retrieval.
 			//write in people
-	}
+}
 }
