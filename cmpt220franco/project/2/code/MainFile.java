@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class MainFile {
 	public static void main (String[] args){
-		Person player = new Person (); //creates the object of the player.
+		Location.setItemsAndContainers();//calls the function location class to put items and containers where they belong.
 		printOpening(); //calls the function to print the introduction of the game.
-		player.beenTo.push(player.locationIndex);//adds the initial location to the stack of integers
-		player.renderLocation();//prints the description of the default location.
+		Person.player.beenTo.push(Person.player.locationIndex);//adds the initial location to the stack of integers
+		Person.player.renderLocation();//prints the description of the default location.
 		
 		/**game loop driving the whole thing.*/
 		while (true){
@@ -15,16 +15,20 @@ public class MainFile {
 			/**functions that need to run or conditions that need to be checked
 			 * before it can ask for input.*/
 			
-			if (!player.renderLocation)
+			if (!Person.player.renderLocation)
 				//There's certain conditions where rendering a location or set of circumstances causes the game to end. This finishes that- breaking 
 				//out of the game loop. 
 				break;
 			
-			String todo = getInput();//calls the function for user input and saves it as a string variable.
+			/**get the input!*/
+			String[] command = getInput();//calls the function for user input and saves the first word and the rest of the line
+			String todo = command[0]; //saves the first word of the command as to do, these are most of the commands
+			String nameOfThing = command [1]; //saves the rest of the line, usually a name of container or object, into nameOfThing.
+			//can't combine these without calling the function twice. So don't try it. Again.
 			
 			/**basic game functions*/
 			if (todo.equals("quit")){//if the user wants to get out of the game.
-				if (player.locationIndex == 12)//this is the ending if you quit out of the Depths of the Hudson.
+				if (Person.player.locationIndex == 12)//this is the ending if you quit out of the Depths of the Hudson.
 					displayQuit(8);
 				else 
 					displayQuit(0);//calls the quit function with the correct ending (quit code, tells switch ending to print)
@@ -35,39 +39,80 @@ public class MainFile {
 			} else if (todo.equals("help"))//prints help message.
 				displayHelp();//calls the function that prints the help message. 
 			
-			else if (todo.equals("maul")){
-				for (int i =0; i < 30; i++){
-					int maulMe = getRandomNumber(30);
-					System.out.println(maulMe);}
-				}
-			
+			else if (todo.equals("maul")) //I don't need  this. but it's here.
+				for (int i =0; i < 30; i++)
+					System.out.println(getRandomNumber(30));
+			else if (todo.equals("test")){//framework for test command
+				System.out.println(nameOfThing);
+			}
+				
 			/**navigation commands*/
 			else if (todo.equals("up")) //executes the up command
-				player.moveLocation(0); //0 is the column for up
+				Person.player.moveLocation(0); //0 is the column for up
 			else if (todo.equals("down"))//executes the down command.
-				player.moveLocation(1);//1 is the column for down.
+				Person.player.moveLocation(1);//1 is the column for down.
 			else if (todo.equals("forward"))//execute the command
-				player.moveLocation(2);//2 is the column for forward
+				Person.player.moveLocation(2);//2 is the column for forward
 			else if (todo.equals("backward"))//executes the backward command
-				player.moveLocation(3);//3 is the column for backward.
+				Person.player.moveLocation(3);//3 is the column for backward.
 			else if (todo.equals("left"))//executes the left command
-				player.moveLocation(4);//4 is the column for left.
+				Person.player.moveLocation(4);//4 is the column for left.
 			else if (todo.equals("right"))//executes the right command
-				player.moveLocation(5);//5 is the column for right.
+				Person.player.moveLocation(5);//5 is the column for right.
 			else if (todo.equals("back"))//takes the player back to the previous location.
-				player.goBack(); //calls the go back function.
+				Person.player.goBack(); //calls the go back function.
 			else if (todo.equals("current"))//renders the current location. 
-				player.renderCurrentLocation();
+				Person.player.renderCurrentLocation();
+			else if (todo.equals("jump")){ //jump to a specific location, to be removed before final product is finished.
+				Person.player.locationIndex = Integer.parseInt(nameOfThing);
+				Person.beenTo.push(Person.player.locationIndex);
+				Person.player.renderLocation();}
+			
+			/**Item Commands*/
+			else if (todo.equals("examine")){ 
+				if (!nameOfThing.equals("")) //if you've specified an item/container
+					Item.printItemDescription(nameOfThing);
+				else
+					Location.places[Person.player.locationIndex].examine();}//prints out list of containers and items in location.
+			else if (todo.equals("rummage")){ //displays a list of all the things in the container.
+				if (!nameOfThing.equals("")) //if you've specified an container
+					Container.determineContainerValid(nameOfThing);
+				else if (Location.places[Person.player.locationIndex].receptacle[0] == null){//if there's nothing in there.
+					System.out.println("\nThere's nothing here to rummage through.");
+				}
+				else { //if you don't specify a container.
+					System.out.println("\nPlease specify a container to rummage through.\n");
+					Location.places[Person.player.locationIndex].examineContainers();//prints out list of containers in location.
+					Scanner inputModifier = new Scanner(System.in);
+					String modifier = inputModifier.nextLine();
+					Container.determineContainerValid(modifier);
+				}
+			}//closes rummage else if
+//			else if (todo.equals("take")){
+//				if (!nameOfThing.equals("")) //if you've specified an container
+	//				Container.takeItem(nameOfThing);
+		//		else if (Location.places[Person.player.locationIndex].receptacle[0] == null || 
+			//			Location.places[Person.player.locationIndex].items[0] == null){//if there's nothing in there.
+				//	System.out.println("\nThere's nothing here to take.");
+//				}
+	///			else { //if you don't specify a container.
+		//			System.out.println("\nPlease specify an item to take.\n");
+			//		Location.places[Person.player.locationIndex].examineContainers();//prints out list of containers in location.
+				//	Scanner inputModifier = new Scanner(System.in);
+	//				String modifier = inputModifier.nextLine();
+		//			Item.determineItemValid(modifier);
+//			}
+//		}
 			else //this is the else for the whole loop.
 				System.out.println("\nYou have entered an invalid command.");//because if you did, you wouldn't be here.
 		}// this one closes out the loop
-		displayCredits();
+		promptForRestart();
 	}//this one closes out the main function
 	
 	/**game functions*/
 	public static void printOpening(){//part of the story of the game
 		System.out.println("Cove Wrench Drop: The Game.");//title of game
-		System.out.println("-----------------------------");
+		System.out.println("-------------------------------------------------");
 		System.out.println("The Scene: The Cove [Marist College's Nelly Goletti Theatre's Cat Walks]");
 		System.out.println("The Time: 4pm.");
 		System.out.println("");
@@ -80,12 +125,13 @@ public class MainFile {
 				+ "How? Acquire the things a college campus can offer, and assemble them to reach into the blackness. \n"
 				+ "Maybe, just maybe, you will retrieve the last wrench and pretend nothing ever happened.");	
 	}
-	public static String getInput() {//how the user enters commands of places to go or things to do.
-		Scanner input = new Scanner(System.in);//creates a scanner object.
-		System.out.println("");
-		System.out.print("Where or what do you want to go or do? ");
+	public static String[] getInput() {//how the user enters commands of places to go or things to do.
+		Scanner input = new Scanner(System.in);//creates a scanner object for general commands.
+		System.out.print("\nWhere or what do you want to go or do? ");
 		String command = input.next();
-		return command;//to be used in game loop to use the player's input to do what they want. 
+		String modifier = input.nextLine().trim();
+		String[] userInput = new String[] {command, modifier};//to be used in game loop to use the player's input to do what they want. 
+		return userInput;
 	}
 	public static void displayHelp(){
 		System.out.println("\nYour goal: retrieve your dropped wrench.");
@@ -141,13 +187,29 @@ public class MainFile {
 		} //closes the switch statement
 	}//closes the displayQuit method
     public static void displayCredits() {
-    	System.out.println("-------------------------------------------------");
-    	System.out.println("");
-    	System.out.println("Thank you for playing Cove Wrench Drop: The Game.");
-    	System.out.println("");
+    	System.out.println("-------------------------------------------------\n");
+    	System.out.println("Thank you for playing Cove Wrench Drop: The Game.\n");
     	System.out.println("Copyright Julia Franco, March 2017.");
 	}//closes display credits method.
-    public static int getRandomNumber (int multFactor){
+    public static void promptForRestart(){
+    	Scanner yesno = new Scanner(System.in);//creates a scanner object for general commands.
+    	System.out.println("-------------------------------------------------");
+		System.out.println("Restart? (y/n)");
+		String restart = yesno.next();
+		if (restart.equals("y")){
+			Location.wipeLocations();
+			System.out.println("-------------------------------------------------");
+			//need to wipe all the items from locations.
+			main(null); //calls main function to run game again.
+		}
+		else if (restart.equals("n"))
+			displayCredits();
+		else
+			promptForRestart();
+    }
+    
+    /**Generates random numbers for various game functions*/
+    public static int getRandomNumber (int multFactor){//used to manipulate probability of events.
     	return (int)(Math.random() * multFactor);
     }
-}//closes the MainFile class. }//closes out the person class. 
+}//closes the MainFile class.

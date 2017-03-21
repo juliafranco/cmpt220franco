@@ -1,23 +1,41 @@
 package code;
 
+import java.util.Scanner;
+
+/**Person class holds all data related to people within the game including the player.*/
 public class Person {
-	//Person class holds all data related to people within the game including the player.
 		int locationIndex; //the current location is referenced by its index in the locations list. This holds that index.
 		boolean renderLocation; //determines  if you can fully render the location because THINGS HAPPEN
-		//will have at least a name. 
+//		String name;
+		Item[] inventory; //holds a list of item objects in your inventory
+		boolean inventoryEnabled = false; //determines if you can hold things. Starts out you can't.
+		//and money.
 		
 		//the player probably will inherent other things {inventory}, and the others will have a separate things.
 			//2 subclasses
 		Person (){//no args  constructor with the default location
 			locationIndex = 0; //the default location for a person.
+//			name = getName();
 		}	
 		Person(int intLocation){//Constructor to set opening location.
 			locationIndex = intLocation;
 		}
 		
-		StackOfIntegers beenTo = new StackOfIntegers(); //creates a new StackOfIntegers to be used for back function.
+		static Person player = new Person (); //creates the object of the player
 		
-		void moveLocation (int direction){//used to move player around the map
+		static StackOfIntegers beenTo = new StackOfIntegers(); //creates a new StackOfIntegers to be used for back function.
+		/**Get player's name*/
+		String getName(){
+			Scanner inputName = new Scanner(System.in);//creates a scanner object.
+			System.out.println("Enter your name.");
+			String yourName = inputName.next();
+			System.out.println("-------------------------------------------------\n");
+			return yourName;
+			
+			
+		}
+		/**used to move player around the map*/
+		void moveLocation (int direction){
 			if (Location.navMatrix[this.locationIndex][direction] >= 0){
 				this.locationIndex = Location.navMatrix[this.locationIndex][direction];
 				beenTo.push(this.locationIndex); //adds the index to the list of places the player's been to.
@@ -25,7 +43,8 @@ public class Person {
 			} else
 				nothingThere();//prints out a message there's  nothing there.
 		}
-		boolean renderLocation (){//prints out the details of your location
+		/**prints out the details of your location*/
+		boolean renderLocation (){
 			System.out.println("\nYour location is " + Location.places[this.locationIndex].locationName);
 			System.out.println("");
 			if (this.locationIndex == 8)
@@ -43,9 +62,10 @@ public class Person {
 				MainFile.displayQuit(1);
 				return this.renderLocation = false;}
 			return this.renderLocation = true;}
-	    void nothingThere (){//prints an error message if you try to go in a direction without a defined location.
-	    	System.out.println("\nThere is nothing in that direction of " + Location.places[this.locationIndex].locationName);
-	    }
+		/**prints an error message if you try to go in a direction without a defined location.*/
+	    void nothingThere (){
+	    	System.out.println("\nThere is nothing in that direction of " + Location.places[this.locationIndex].locationName);}
+	    /**Takes the player back to their previous location.*/
 	    void goBack (){
 	    	if (beenTo.getSize() == 1)//the only item in the list is the zero. If it wasn't there, it would throw exceptions.
 	    		System.out.println("\nYou can't go back any further.");
@@ -57,8 +77,11 @@ public class Person {
 	    		renderLocation();
 	    	}    	
 	    }
-	    void renderCurrentLocation(){//prints the name of your current location.
-	    	System.out.println("\nYour current location is "+ Location.places[this.locationIndex].locationName);
-	    	//maybe add the initial description of the place?
+	    /**prints the name of your current location.*/
+	    void renderCurrentLocation(){
+	    	System.out.println("\nYour current location is "+ Location.places[this.locationIndex].locationName);}
+	    /**Flips the inventory boolean so you can hold items. Flips after you pick up the book bag*/
+	    void enableInventory (){
+	    	this.inventoryEnabled = true;
 	    }
 }

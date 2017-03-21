@@ -1,14 +1,12 @@
 package code;
 
 public class Notes {
-	public static void main (String[] args){
-	}
-	
 	/**TODO:
-		//*WRITE MORE LOCATIONS.
+		//*
+		 *Add ability to have inventory.
+		 *Write more items 
+		 *Write more locations
 		 *Probably should draw up location class UML guide.
-		 *Items- examine for them (can't pick up yet.)
-		 *Containers! - can rummage (tells you what's there), can't pick up.
 		 */
 	
 	//Cove Wrench Drop: The Game.
@@ -49,8 +47,8 @@ public class Notes {
 			//a	//the shop (7)
 					//Contains cabinets and/or drawers to rummage through
 			//b	//the stage (4)
-			//c	//the green room
-			//d	//the bathroom [only the one with the closet.]
+			//c	//the green room (14)
+			//d	//the bathroom [only the one with the closet.] (13)
 				//the cove
 			//e		//the walkway (0)
 			//f		//under the lights/spot op area. (3)
@@ -65,7 +63,6 @@ public class Notes {
 					//specific couches hold specific items, pick a number of the couch to rummage in.
 			//k	//the theatre itself (2)
 			//l	//the green (8)
-					//include a random chance of outright getting MAULED BY A GOOSE.
 				//K1
 			//m-q		//living room, kitchen, upstairs landing, bathrooom ,bedroom B
 			//r	//the construction site
@@ -90,11 +87,12 @@ public class Notes {
 			//remembers where you've been
 			//hold items. 
 }
-/**IV. */ void commands(){
+/**IV. */ void Commands(){
 		//tied to methods/functions-
-			//up, down, left, right, fowards, about face & backwards, go back [fully functioning][DONE.], use [for you item]
+			//up, down, left, right, forwards, about face & backwards, go back [fully functioning][DONE.], use [for you item]
 			//pick up & put down [items]
 			//combine for items
+				//see early labs with indefinite numbers of integers inputed.
 			//can buy items- places that sell them will have prices attached to them [subclass of buyable item]
 				//obviously can only buy if you have the money.
 			//help- displays some useful commands- more as it goes forward and things are "unlocked"
