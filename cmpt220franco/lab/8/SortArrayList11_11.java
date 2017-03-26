@@ -11,6 +11,8 @@ public class SortArrayList11_11 {
 			numbers.add(input.nextInt()); //add the element to the list.
 		System.out.print("The Items as sorted are: ");
 		sort(numbers);
+                 for (int k =0; k < numbers.size(); k++){
+			  System.out.print(numbers.get(k) + ", ");}
 	}
 
 	/**sorts a given list of numbers*/
@@ -24,9 +26,5 @@ public class SortArrayList11_11 {
 		              List.set(i, temp);}
 		        }
 		    }
-		  //since the method is a Void and the output has to get out somehow....
-		  for (int k =0; k < List.size(); k++){
-			  System.out.print(List.get(k) + ", ");}
-	
 	}//closes out sort method. 
 }//closes out whole file
