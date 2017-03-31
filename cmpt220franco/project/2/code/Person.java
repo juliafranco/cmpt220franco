@@ -1,13 +1,15 @@
 package code;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**Person class holds all data related to people within the game including the player.*/
 public class Person {
 		int locationIndex; //the current location is referenced by its index in the locations list. This holds that index.
-		boolean renderLocation; //determines  if you can fully render the location because THINGS HAPPEN
-//		String name;
-		Item[] inventory; //holds a list of item objects in your inventory
+		boolean renderLocation; //determines if you can fully render the location because THINGS HAPPEN
+//		String name; //disabled for now because you don't need it at the moment and it annoys me.
+		ArrayList<Item> inventory = new ArrayList<>(); //holds a list of item objects in your inventory, can hold five items [can change if I want...].
+		final int MAX_INVENTORY = 5;
 		boolean inventoryEnabled = false; //determines if you can hold things. Starts out you can't.
 		//and money.
 		
@@ -23,17 +25,14 @@ public class Person {
 		
 		static Person player = new Person (); //creates the object of the player
 		
-		static StackOfIntegers beenTo = new StackOfIntegers(); //creates a new StackOfIntegers to be used for back function.
+		StackOfIntegers beenTo = new StackOfIntegers(); //creates a new StackOfIntegers to be used for back function.
 		/**Get player's name*/
 		String getName(){
 			Scanner inputName = new Scanner(System.in);//creates a scanner object.
 			System.out.println("Enter your name.");
 			String yourName = inputName.next();
 			System.out.println("-------------------------------------------------\n");
-			return yourName;
-			
-			
-		}
+			return yourName;}
 		/**used to move player around the map*/
 		void moveLocation (int direction){
 			if (Location.navMatrix[this.locationIndex][direction] >= 0){
@@ -82,6 +81,54 @@ public class Person {
 	    	System.out.println("\nYour current location is "+ Location.places[this.locationIndex].locationName);}
 	    /**Flips the inventory boolean so you can hold items. Flips after you pick up the book bag*/
 	    void enableInventory (){
-	    	this.inventoryEnabled = true;
-	    }
-}
+	    	this.inventoryEnabled = true;}
+		void displayInventory(){
+			this.displayPersonalInventory();
+			//displays secondary inventory, if anything. 
+			if (!Container.secondaryInv.contents.isEmpty()){//if there's something in there or not...
+				System.out.println("\nItems in Secondary Inventory:");
+				for (int j = 0; j < Container.secondaryInv.contents.size(); j++ )//loop through the elements in the list
+					System.out.print(Container.secondaryInv.contents.get(j).itemName + ", ");//print the list of items.
+			 System.out.print("\n");}//this is for formating purposes.
+		}
+		/**prints the contents of personal inventory*/
+		void displayPersonalInventory(){
+			//prints everything in personal inventory
+			if (this.inventory.isEmpty())//if it;s empty.
+				System.out.println("\nThere is nothing in your inventory.");
+			else{
+				System.out.println("\nYour inventory is: ");
+				for (int i = 0; i < this.inventory.size(); i++)//lloop through all the items in inventory
+					System.out.print(this.inventory.get(i).itemName + ", "); //and print them.
+				System.out.println("");
+			}
+	//		System.out.print("\n"); //this is for formating purposes.
+		}
+		/**determines if you can add an item to the inventory*/
+		void determineAddItem (String itemToAdd){
+			if (this.inventory.size() >= MAX_INVENTORY) //checks if it's full
+				System.out.println("\nYour bag is full. Maybe try transferring a few things to a secure location... a box in the lightbooth perhaps?");
+			else Item.determineSamePlace(itemToAdd); //determines if the item is where the player is
+		}
+		/**adds an item to the inventory*/
+		void addItem(Item itemToAdd){
+			if (itemToAdd != Item.bookbag){//if it's not the bookbag which doesn't show up in your inventory
+				this.inventory.add(itemToAdd);
+				System.out.println("\nYou add the item to your inventory");
+				displayInventory();}
+		}
+		/**drops an item from inventory*/
+		void dropItem(String itemToCheck) {
+			Item itemToFind = Item.determineItemsExistance(itemToCheck);//saves what the method returns as an item object
+			if (itemToFind != null){
+				if (this.inventory.contains(itemToFind)){
+					this.inventory.remove(itemToFind);
+					Location.places[this.locationIndex].addItem(itemToFind);
+					System.out.println("\nYou set the item down in " + Location.places[this.locationIndex].locationName);
+					displayInventory();}
+				else{
+					System.out.println("\nYou can't drop an item you don't have.");}
+				}
+		}
+		
+}//closes out person class.

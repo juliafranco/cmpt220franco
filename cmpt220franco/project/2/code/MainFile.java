@@ -12,8 +12,7 @@ public class MainFile {
 		/**game loop driving the whole thing.*/
 		while (true){
 			
-			/**functions that need to run or conditions that need to be checked
-			 * before it can ask for input.*/
+			/**functions that need to run or conditions that need to be checked before it can ask for input.*/
 			
 			if (!Person.player.renderLocation)
 				//There's certain conditions where rendering a location or set of circumstances causes the game to end. This finishes that- breaking 
@@ -43,7 +42,7 @@ public class MainFile {
 				for (int i =0; i < 30; i++)
 					System.out.println(getRandomNumber(30));
 			else if (todo.equals("test")){//framework for test command
-				System.out.println(nameOfThing);
+				System.out.println(Container.couch3);
 			}
 				
 			/**navigation commands*/
@@ -63,10 +62,16 @@ public class MainFile {
 				Person.player.goBack(); //calls the go back function.
 			else if (todo.equals("current"))//renders the current location. 
 				Person.player.renderCurrentLocation();
+			
+			/**Bypass Commands*/ //used to bypass stuff in the game to make testing less annoying
 			else if (todo.equals("jump")){ //jump to a specific location, to be removed before final product is finished.
-				Person.player.locationIndex = Integer.parseInt(nameOfThing);
-				Person.beenTo.push(Person.player.locationIndex);
-				Person.player.renderLocation();}
+				if (Integer.parseInt(nameOfThing) < Location.places.length){
+					Person.player.locationIndex = Integer.parseInt(nameOfThing);
+					Person.player.beenTo.push(Person.player.locationIndex);
+					Person.player.renderLocation();}
+				}
+			else if (todo.equals("bookbag"))
+				Person.player.enableInventory();
 			
 			/**Item Commands*/
 			else if (todo.equals("examine")){ 
@@ -75,34 +80,68 @@ public class MainFile {
 				else
 					Location.places[Person.player.locationIndex].examine();}//prints out list of containers and items in location.
 			else if (todo.equals("rummage")){ //displays a list of all the things in the container.
-				if (!nameOfThing.equals("")) //if you've specified an container
-					Container.determineContainerValid(nameOfThing);
-				else if (Location.places[Person.player.locationIndex].receptacle[0] == null){//if there's nothing in there.
+				if (Location.places[Person.player.locationIndex].receptacle.isEmpty()){//if there's nothing in there.
 					System.out.println("\nThere's nothing here to rummage through.");
-				}
-				else { //if you don't specify a container.
+					continue;}
+				else if (nameOfThing.equals("")){ //if you don't specify a container.
 					System.out.println("\nPlease specify a container to rummage through.\n");
 					Location.places[Person.player.locationIndex].examineContainers();//prints out list of containers in location.
-					Scanner inputModifier = new Scanner(System.in);
-					String modifier = inputModifier.nextLine();
-					Container.determineContainerValid(modifier);
-				}
+					nameOfThing = getSecondaryInput();}
+				Container.determineContainerValid(nameOfThing);
 			}//closes rummage else if
-//			else if (todo.equals("take")){
-//				if (!nameOfThing.equals("")) //if you've specified an container
-	//				Container.takeItem(nameOfThing);
-		//		else if (Location.places[Person.player.locationIndex].receptacle[0] == null || 
-			//			Location.places[Person.player.locationIndex].items[0] == null){//if there's nothing in there.
-				//	System.out.println("\nThere's nothing here to take.");
-//				}
-	///			else { //if you don't specify a container.
-		//			System.out.println("\nPlease specify an item to take.\n");
-			//		Location.places[Person.player.locationIndex].examineContainers();//prints out list of containers in location.
-				//	Scanner inputModifier = new Scanner(System.in);
-	//				String modifier = inputModifier.nextLine();
-		//			Item.determineItemValid(modifier);
-//			}
-//		}
+			else if (todo.equals("take")){
+				if (!Person.player.inventoryEnabled){
+					if (nameOfThing.equals(Item.bookbag.itemName)){
+						System.out.println("\nYou pick up the book bag. You are now able to hold an inventory in it.");
+						Person.player.enableInventory();
+					} else {
+						System.out.println("\nYou don't take the item because you have no way of holding it other than in your hands, "
+								+ "which \nwould just be annoying. Maybe find something to put it in?");
+						continue;}
+				}
+				else if (Location.places[Person.player.locationIndex].receptacle.isEmpty() && 
+						Location.places[Person.player.locationIndex].items.isEmpty()){//if there's nothing in there.
+					System.out.println("\nThere's nothing here to take.");
+					continue;
+				}else if (nameOfThing.equals("")){ //if you don't specify an item.
+					System.out.print("\nPlease specify an item to take.\n");
+					if (!Location.places[Person.player.locationIndex].receptacle.isEmpty()){
+						System.out.println("(There may be items hiding inside of something else... try rummaging for them.)\n");}
+					Location.places[Person.player.locationIndex].examineItems();//prints out list of the items in the location, 
+					nameOfThing = getSecondaryInput();}
+				Person.player.determineAddItem(nameOfThing);
+				}//closes take function
+			else if (todo.equals("drop")){
+				if (!Person.player.inventoryEnabled){
+						System.out.println("\nYou can't drop something from an inventory you don't have.");
+						continue;}
+				if (nameOfThing.equals("")){ //if you haven't specified an item
+					System.out.print("\nPlease specify an item to drop.\n");
+					Location.places[Person.player.locationIndex].examineItems();//prints out list of the items in the location, 
+					nameOfThing = getSecondaryInput();}
+				Person.player.dropItem(nameOfThing);//if you have specified an item, it drops to here.
+				}//closes take function
+			else if (todo.equals("transfer")){//move an item from inventory to the box in the light booth
+				if (!Person.player.inventoryEnabled){
+					System.out.println("You don't have an inventory to be able to have anything to transfer anywhere.");
+				}
+				if (nameOfThing.equals("")){ //if you haven't specified an item to transfer
+					System.out.println("\nPlease specify an item to transfer to secondary storage.");
+				    Person.player.displayPersonalInventory();
+				    nameOfThing = getSecondaryInput();}
+				Item.TransferItem(nameOfThing);
+			}
+			else if (todo.equals("inventory"))				
+				if (Person.player.inventoryEnabled)
+					Person.player.displayInventory();
+				else 
+					System.out.println("\nYou have no inventory, nor anything to hold it with.");
+			else if (todo.equals("show")){
+				if( nameOfThing.equals("map")){
+					Item.displayMap();
+				} else {
+					System.out.println("\n Nothing to display... move along...");}
+			}
 			else //this is the else for the whole loop.
 				System.out.println("\nYou have entered an invalid command.");//because if you did, you wouldn't be here.
 		}// this one closes out the loop
@@ -133,6 +172,10 @@ public class MainFile {
 		String[] userInput = new String[] {command, modifier};//to be used in game loop to use the player's input to do what they want. 
 		return userInput;
 	}
+	public static String getSecondaryInput(){//used to get the secondary input for examining items, rummage in containers, etc.
+		Scanner inputModifier = new Scanner(System.in);
+		return inputModifier.nextLine();
+	}
 	public static void displayHelp(){
 		System.out.println("\nYour goal: retrieve your dropped wrench.");
 		System.out.println("-------------------------------------------");
@@ -142,11 +185,11 @@ public class MainFile {
 				+ " \nback [goes back to previous location]\n");
 		System.out.println("Commands Related to Items:");
 		System.out.print("examine");
-//		if (itemHelp){ //this is a boolean value that will flip when you pick up your first item.
-//			System.out.println(" [the location for items or add an item to name to examine the item itself],");//this line is full.
-//		    System.out.println("discard [followed by name to put down an item], \ntransfer [followed by name, to secondary storage],");
-//		    System.out.println("combine [followed by the items you wish to combine], \ninventory [displays inventory],");
-//		    System.out.println("descend [followed by name, use an item to attempt to get the wrench.]");}
+		if (Person.player.inventoryEnabled){ //once you can pick up items, this stuff becomes relevent. 
+			System.out.println(" [the location for items or add an item to name to examine the item itself],");//this line is full.
+		    System.out.println("drop [followed by name to put down an item], \ntransfer [followed by name, to secondary storage],");
+		    System.out.println("inventory [displays inventory], combine [followed by the items you wish to combine],");
+		    System.out.println("descend [followed by name, send an item though the grating to attempt to get the wrench]");}
 //		if(combineHelp)
 //			 System.out.println("separate [followed by the items you wish to seperate],");			
 		System.out.println("\nGeneral Commands:");
@@ -194,12 +237,17 @@ public class MainFile {
     public static void promptForRestart(){
     	Scanner yesno = new Scanner(System.in);//creates a scanner object for general commands.
     	System.out.println("-------------------------------------------------");
-		System.out.println("Restart? (y/n)");
+		System.out.print("Restart? (y/n) ");
 		String restart = yesno.next();
-		if (restart.equals("y")){
-			Location.wipeLocations();
-			System.out.println("-------------------------------------------------");
+		if (restart.equals("y")){//reset everything
 			//need to wipe all the items from locations.
+			Location.wipeLocations();
+			for (int i = 0; i < Location.places.length; i++)
+				Location.places[i].isVisited = false;//resets it so you haven't been anywhere.
+			//need to reset the attributes of the player.
+			Person.player.locationIndex = 0;
+			Person.player.inventory.clear();
+			System.out.println("-------------------------------------------------");
 			main(null); //calls main function to run game again.
 		}
 		else if (restart.equals("n"))
