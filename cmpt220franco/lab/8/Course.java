@@ -26,6 +26,9 @@ public class Course {
 		return courseName;
 	}
 	
+	// JA: If you are keeping track of trhe number of students
+	// JA: you need to decrement numberOfStudents here
+	// JA: Otherwise, you can use students.size()
 	public void dropStudent(String student) {
 	    if (students.contains(student)){
 	    	students.remove(student);

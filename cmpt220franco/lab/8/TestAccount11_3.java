@@ -1,4 +1,5 @@
-import Account;
+//JA import Account;
+
 public class TestAccount11_3 {
 	public static void main (String[] args){
 		 Account account1 = new Account (1122, 20000);

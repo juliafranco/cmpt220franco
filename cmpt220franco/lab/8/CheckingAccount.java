@@ -1,4 +1,4 @@
-import Account;
+//JA import Account;
 public class CheckingAccount extends Account {
 	private int id = 1;
 	private double balance = 0;
