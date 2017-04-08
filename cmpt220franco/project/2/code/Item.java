@@ -20,7 +20,7 @@ public class Item {
 		inLocationDescript = examineMessage;
 	}
 	
-	/**Method to remove uses from item*/
+	/**Method to remove uses from item*/ //this is going to hang out here until I'm ready for it.
 	static void removeItemUses(String nameToCheck){
 		return;
 	}
@@ -29,18 +29,14 @@ public class Item {
 	static void printItemDescription(String nameToCheck){
 		//looks to see if the name to check belongs to an item
 		Item itemfound = determineItemsExistance(nameToCheck);
-			if (itemfound != null){
-				System.out.println("\n" + itemfound.itemDescript);
-				return;}
-		//looks to see if name belongs to a container. Might have a way to merge these loops but for now....
-		for (int j = 0; j < Container.listOfContainers.length; j++ ){
-			if (nameToCheck.equals(Container.listOfContainers[j].contName)){
-				System.out.println("\n" + Container.listOfContainers[j].contDescription);
+		if (itemfound != null){
+			System.out.println("\n" + itemfound.itemDescript);
 			return;}
-		}
-		//if you get through everything and nothing's popped out.
-		System.out.println("\nThat item or container does not exist.");
-			
+		//looks to see if name belongs to a container. 
+		Container containerFound = Container.determineContainerValid(nameToCheck);
+		if (containerFound != null){
+			System.out.println("\n" + containerFound.contDescription);
+			return;}
 	}
 	/**method to determine if the item you're trying to manipulate exists.*/
 	static Item determineItemsExistance(String itemToCheck){
@@ -135,10 +131,19 @@ public class Item {
     static Item plunger = new Item ("A Plunger", "What a nice plunger you have. What suction. The better to plunge toilets with... or hold things?"
         , "\nYou see a plunger behind the toilet. Good for plunging toilets, yes, but other things? Quite possibly.");
     static Item map = new Item ("A map", "A laminated map of the campus. useful, yes. Detailed, not really. ['show map' will display the map.]"
-        , "\nIn a bin, there are maps. It's probably a smart idea to snag one.");
+        , "\nIn a bin, there are maps. It's probably a smart idea to snag one."); 
     static Item bottle = new Item ("Jillian's Smirnoff", "TIME TO GET REKT", "\nA bottle. Of vodka. Left on a desk. In front of open curtains. Where "
-    		+ "the RA can see it. For two days. My roommate is dumb."); //Probably ought to take this out,,,
+    		+ "the RA can see it. For two days. My roommate is dumb."); //FIXME: Probably ought to take this out,,,
+    static Item wrench = new Item ("The Wrench", "The whole reason you're in this mess to be begin with." , "Your contraption has latched onto the "
+    		+ "wrench and it's coming back to daylight now.");
+    static Item keys = new Item ("Some Car Keys", "A set of car keys to a Honda Civic... with a sticker with the VIN number of the car it belongs to "
+                + "on it. No one ever said that was smart.", "You pull a set of car keys out of the Cove. You feel bad for the person who dropped "
+                + "their keys in the Cove...");
+    static Item avocados = new Item ("A Bin of Avocados.", "A bin of avocados. Full of avocados. What are you going to do with them? What if they're"
+                + "sentient?", "Avocados? You didn't know Job Lot sells avocados. No... they definitely don't. Since they don't belong here, who's"
+                + "going to miss them if you swipe them. But god, they're just sitting there like the mastermind of some horrid trap.");
 
 	/**Array to hold Item objects*/
-	static Item[] listOfItems = {otherWrench, grabber, repellent, parcans, bookbag, gafftape, drill, plunger, map, bottle};
-}
+	static Item[] listOfItems = {otherWrench, grabber, repellent, parcans, bookbag, gafftape, drill, plunger, map, bottle,
+			wrench, keys, avocados};
+}//end of item class.

@@ -79,6 +79,7 @@ public class MainFile {
 					Item.printItemDescription(nameOfThing);
 				else
 					Location.places[Person.player.locationIndex].examine();}//prints out list of containers and items in location.
+			
 			else if (todo.equals("rummage")){ //displays a list of all the things in the container.
 				if (Location.places[Person.player.locationIndex].receptacle.isEmpty()){//if there's nothing in there.
 					System.out.println("\nThere's nothing here to rummage through.");
@@ -87,8 +88,9 @@ public class MainFile {
 					System.out.println("\nPlease specify a container to rummage through.\n");
 					Location.places[Person.player.locationIndex].examineContainers();//prints out list of containers in location.
 					nameOfThing = getSecondaryInput();}
-				Container.determineContainerValid(nameOfThing);
+				Container.determineSamePlace(nameOfThing);
 			}//closes rummage else if
+			
 			else if (todo.equals("take")){
 				if (!Person.player.inventoryEnabled){
 					if (nameOfThing.equals(Item.bookbag.itemName)){
@@ -111,16 +113,18 @@ public class MainFile {
 					nameOfThing = getSecondaryInput();}
 				Person.player.determineAddItem(nameOfThing);
 				}//closes take function
+			
 			else if (todo.equals("drop")){
 				if (!Person.player.inventoryEnabled){
 						System.out.println("\nYou can't drop something from an inventory you don't have.");
 						continue;}
 				if (nameOfThing.equals("")){ //if you haven't specified an item
 					System.out.print("\nPlease specify an item to drop.\n");
-					Location.places[Person.player.locationIndex].examineItems();//prints out list of the items in the location, 
+					Person.player.displayPersonalInventory();//prints out list of the items in your inventory you can drop
 					nameOfThing = getSecondaryInput();}
 				Person.player.dropItem(nameOfThing);//if you have specified an item, it drops to here.
 				}//closes take function
+			
 			else if (todo.equals("transfer")){//move an item from inventory to the box in the light booth
 				if (!Person.player.inventoryEnabled){
 					System.out.println("You don't have an inventory to be able to have anything to transfer anywhere.");
@@ -131,12 +135,13 @@ public class MainFile {
 				    nameOfThing = getSecondaryInput();}
 				Item.TransferItem(nameOfThing);
 			}
-			else if (todo.equals("inventory"))				
+			else if (todo.equals("inventory")) //displays your inventory				
 				if (Person.player.inventoryEnabled)
 					Person.player.displayInventory();
 				else 
 					System.out.println("\nYou have no inventory, nor anything to hold it with.");
-			else if (todo.equals("show")){
+			
+			else if (todo.equals("show")){//displays the map
 				if( nameOfThing.equals("map")){
 					Item.displayMap();
 				} else {

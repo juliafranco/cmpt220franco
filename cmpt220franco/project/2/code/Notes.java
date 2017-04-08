@@ -2,12 +2,14 @@ package code;
 
 public class Notes {
 	/**TODO:
-		//*               
+		//*
+         *Get money working.- at least finding it. Spending it will come.\
+         *Work on being able to descend items, what happens when you do.
+         *Be able to combine. - attach attributes to items.(lenght, grabby, nothing, etc)               
 		 *Write more items 
 		 *Write more locations
 		 *Probably should draw up UMLs.
 		 *make the input easier to work with.
-		 *Figure out how to hide Depths of Cove.    
 		 */
     /**FIXME: [to remove]: bypass command, maul command, bottle of Vodka 
      * */	
@@ -18,7 +20,7 @@ public class Notes {
 }
 /**II. */ void CombineItems_GetTheWrench(){ 
 			//there's also other things down there that you can grab
-				//car keys(??), the wrong wrench (can end the game.)[item 28]
+				//car keys(??) (item 21), the wrong wrench (can end the game.)[item 18]
 					//"This isn't the wrench you dropped, but it's a wrench. Technically,
 						// you did what you set out to do. So you can put it back and go about 
 						//your life or keep trying to get the one you dropped. Keep trying y/n? [pass quit code probably.]
@@ -57,7 +59,7 @@ public class Notes {
 					//the depths? Can you go down there??
 						//this might not be somewhere you can go, but somewhere that holds the items down there.
 						//this is a container which contains some items. You "reach" into the container but it's a special class?
-		    //g     //Campus security.[20]
+		    //g     //Campus security.(20)
 /**Done*/	//h	//the light booth (1)
 /**Done*/	//i	//the roof (9)
 /**Done*/	//j	//the couches (6)
@@ -66,14 +68,13 @@ public class Notes {
 /**Done*/	//k	//the theatre itself (2)
 /**Done*/	//l	//the green (8)
 				/**K1*/
-		    //m-q			//living room[15], kitchen[16], upstairs landing[17], bathrooom[19],bedroom B[18]
+/**Done*/	    //m-q			//living room(15), kitchen(16), upstairs landing(17), bathrooom(19),bedroom B(18)
 		    //r	//the construction site[21]
 				//need to worry about people finding you.
-				//go over there, have to decide to go inside. 
-		    //s	//Home depot
-		    //t	//rite aid
-		    //u	//job lot
-		    //v	//Lola's
+		    //s	//Home depot [24]
+		    //t	//rite aid [22]
+		    //u	//job lot [23]
+		    //v	//Lola's [25]
 					//has a few items that you could buy and eat. (like a sandwich or two and peanut noodles.)
 					//you'd probably need the car to get there.
 /**Done*/	//w    //Abandoned Staples which leads to a dimension of infinite wrenches. (5)
@@ -125,7 +126,7 @@ public class Notes {
 					//money is its own separate data field. 
 /**Done*///2	//the grabber [cove walkway]
 		 //3	//a worklight
-		 //		//an extension cord [stage]
+		 //4	//an extension cord [stage]
 		 //5	//rope
 		 //6	//pvc pipe
 		 //7	//2 x 4
@@ -148,14 +149,14 @@ public class Notes {
 		 //15	//a 10 foot ladder [found on stage]
 		 //16	//some tuperware
 		 //17	//a really powerful magnet
-		 //18	//a crane [found at construction site]
+/**Done*///18	//The Other Wrench
 		 //19	//a plunger, found in the upstairs bathroom of K1
 		 //20	//a car??
-		 //21		//would need to also find car keys before it's any use. 
-						//you retrieve the car keys from the cove.
+/**Done*///21	//would need to also find car keys before it's any use. 
+       					//you retrieve the car keys from the cove.
 					//use a drive function, have a list of places and you "warp" to them.
 		 //22	//a goblet
-		 //23    //a bin of avocados [found at Job Lot]
+/**Done*///23   //a bin of avocados [found at Job Lot]
 					//"avocados? You didn't know Job Lot sells avocados. No... they definitely don't.
 					//since they don't belong here, who's going to miss them if you swipe them. 
 					//But god, they're just sitting there like the mastermind of some horrid trap.
@@ -172,7 +173,7 @@ public class Notes {
 /**Done*///27	//Goose Repellent
 					//if you have the goose repellent, it disables your ability to get mauled. The minute you don't have it....
 						//even if it's in your secondary inventory...
-/**Done*///28	//The Other Wrench
+
 }
 /**VI. */ void People(){	
 			//avoid people like Matt, Marc, and Jim because SHAME. Also custodian, Gus, who hears the clinking and clanking
@@ -208,8 +209,8 @@ public class Notes {
 				//but seperately from the items.
 }
 /**VIII*/ void Implementation(){ 
-			/** DONE: start with locations and navigation writing functions and methods and objects*/
-			//introduce items and what happens when you use them as well as containers. 
+			/** DONE: start with locations and navigation writing functions and methods and objects
+			//introduce items and what happens when you use them as well as containers. */
 				//determine solution[s] to getting the wrench
 				//introduce item retrieval.
 			//write in people

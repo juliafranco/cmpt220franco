@@ -8,10 +8,14 @@ public class Location {
 		String locationName;
 		String locationDescription;
 		String altDescription; //what it shows if you've been there.
-		Boolean isVisited = false; //tracks if you've been somewhere before.
+		boolean isVisited = false; //tracks if you've been somewhere before.
 		ArrayList<Item> items = new ArrayList<>(); //holds an array list of item objects present in the location. 
 		ArrayList<Container> receptacle = new ArrayList<>(); //holds a list of containers present in the location. 
-		
+
+		/**no args constructor*/
+		Location(){	
+		}
+		/**Constructor for places*/
 		Location( String placeName, String placeDescript, String altDescript){
 			locationName = placeName;
 			locationDescription = placeDescript;
@@ -81,7 +85,9 @@ public class Location {
 					+ "is on your left."),
 			/**11*/ new Location("The other end of the parking lot", "You stand in the middle of the other end of the parking lot. It's kinda "
 					+ "spooky down here... To your \nleft is the friendly looking Rite Aid. In front of you, is the decrepid and creepy looking abandoned "
-					+ "\nStaples. The other end of the lot is behind you." , "other end of Lot II"), //parking lot II //TODO: write alt description Parking Lot II.
+					+ "\nStaples. The other end of the lot is behind you." , "You're back at the other end of the shopping center. You're still getting "
+                                        + "a weird vibe here, probably coming from the creepy abandoned Staples in front of you. The Rite Aid to your left looks nice and "
+                                        + "just turning around and going back to where you came from isn't a bad plan either."), //parking lot II.
 			/**12*/ new Location("The Depths of the Hudson" , "You jump out the kitchen window and right into the Hudson... somehow. This "
 					+ "probably wasn't a \ngood idea, but whatever. It's fine. The water's nice.", "You jump back into the Hudson for..."
 					+ " some... reason...??"), //Depths of the Hudson
@@ -92,14 +98,21 @@ public class Location {
             /**15*/ new Location ("The Living Room of K1","You practically barge into the nearest townhouse in Lower New- K1. It's a cozy living "
             		+ "room of a town \nhouse inhabited by 8 sophomore girls, none of which appear to be home. You wonder why the door was \neven open..."
             		+ "or what kind of useful things could be here. The kitchen is behind you, or you can go forward to go back outside.","You're "
-            		+ "back in the living room"), //TODO: finish this description.
-            /**16*/ new Location ("The K1 Kitchen","",""),
-            /**17*/ new Location ("The Upstairs Landing","",""),
+            		+ "back in the living room. There's some couches and a few cushy chairs and a TV. No humans though. The front door out to the green "
+                    + "is behind you, the kitchen is in front of you, and you can always go upstairs to the second floor."),
+            /**16*/ new Location ("The K1 Kitchen","You find yourself in the kitchen. It's a pretty nice, standard kitchen. Two refridgerators, a "
+            		+ "mountain of garbage in the corner, someone's supply of Ramen. You know, the kitchen of a bunch of college girls. In front of "
+            		+ "you is the living room. Another option is going out the window to your right and going into the Hudson.","You're back in the "
+                    + "kitchen. There seems to be more trash than before but beyond that it's unchanged. There has to be something useful here..."),
+            /**17*/ new Location ("The Upstairs Landing","This is the second floor at the top of the stairs. An open bedroom door to your right, the bathroom "
+                    + "behind you.","You're back on the landing. There's still an open bedroom door to your right and the bathroom behind you. There's a "
+                    + "sink in front of you, but who knows how useful that'll be."),
             /**18*/ new Location ("Bedroom B","An innocent bedroom in a townhouse. It's a little messy and definitly don't have bottles of Smirnoff "
             		+ "\nhiding in it. The landing is to your left.","You're back in the bedroom. It's quaint, still kinda messy, and why is there a horde "
             		+ "of crocheted Daleks \nstaring at you from one of the beds. You can always retreat to the landing on your left."),
-            /**19*/ new Location ("The Upstairs bathroom","",""),
-            /**20*/ new Location ("The Office of Campus Security","","")
+            /**19*/ new Location ("The Upstairs bathroom","You find yourself in the bathroom with the normal bathroom things. There's nothing bizarre in "
+            		+ "here, but maybe something useful.","You're in the bathroom once more. What lurks in a bathroom, only time will tell..."),
+            /**20*/ new Location ("The Office of Campus Security","","") //TODO: write descriptions of the security office.
 			}; 
 		/**used to determine where to go based on the player's location (row) and inputed command (column).*/
 		static int[][] navMatrix =  
@@ -133,12 +146,10 @@ public class Location {
 	 		this.isVisited = true;}
 		/**adds container to location*/
 		void addContainer (Container toAdd){
-			receptacle.add(toAdd);
-		}
+			this.receptacle.add(toAdd);}
 		/**adds item to location*/ //used to add things initially and when you drop them.
 		void addItem (Item toAdd){
-			items.add(toAdd);
-		}
+			this.items.add(toAdd);}
 		/**subtracts item from location*/ //when you pick up an item.-- replaced by default arraylist.remove list. 
 		/**prints the names of the item(s) in that location.*/
 		void examine() {
@@ -172,7 +183,7 @@ public class Location {
 		}
 		/**Do you get mauled by a goose on the green?*/
 		static boolean getMauled(){
-			if ( Person.player.inventory.contains(Item.repellent)) //if you have the goose repellent...
+			if (Person.player.inventory.contains(Item.repellent)) //if you have the goose repellent...
 				return (MainFile.getRandomNumber(240) == 12); //drastically lowers your chance of being mauled.
 			return (MainFile.getRandomNumber(20) == 12);//generates a random number for if you don't have it, and if it's 12 you get mauled
 		}
@@ -187,6 +198,8 @@ public class Location {
 		    Location.places[6].addContainer(Container.couch3);
 		    Location.places[6].addContainer(Container.couch4);
 		    Location.places[13].addContainer(Container.closetBathroom);
+                    Location.places[15].addContainer(Container.K1Couch);
+                    Location.places[16].addContainer(Container.fridge);
 		    
 		    /**Add items to places*/
 		    Location.places[0].addItem(Item.grabber);
@@ -196,6 +209,7 @@ public class Location {
 		    Location.places[18].addItem(Item.bottle);
             Location.places[19].addItem(Item.plunger);
             Location.places[20].addItem(Item.map);
+//          Location.places[23].addItem(Item.avocados);
 		    
 		    /**test purposes*/
 //		    Location.places[0].addItem(Item.otherWrench);
