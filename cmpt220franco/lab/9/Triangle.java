@@ -1,5 +1,6 @@
-import IllegalTriangleException;
+//import IllegalTriangleException;
 
+//JA: Where is the SimpleGeometricObject class defined?
 public class Triangle extends SimpleGeometricObject {
 	private double side1 = 1;
 	private double side2 = 1;
