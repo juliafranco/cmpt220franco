@@ -13,8 +13,7 @@ public class Location {
 		ArrayList<Container> receptacle = new ArrayList<>(); //holds a list of containers present in the location. 
 
 		/**no args constructor*/
-		Location(){	
-		}
+		Location(){}
 		/**Constructor for places*/
 		Location( String placeName, String placeDescript, String altDescript){
 			locationName = placeName;
@@ -81,13 +80,13 @@ public class Location {
 					+ "from school. \nThere has to be something useful over here, whether bought or free. To your left is Home Depot, behind "
 					+ "\nyou is Job Lot, and the other end of the parking lot is in front of you. Or you can go left to go \nback across the "
 					+ "street to campus.", "You find yourself back in the parking lot across the street. Nothing's changed. Job Lot is still "
-					+ "behind you with Home Depot to your left, the other end of the parking lot, and the green on campus across the street "
-					+ "is on your left."),
+					+ "behind you \nwith Home Depot to your left, the other end of the parking lot, and the green on campus across the street "
+					+ "\nis on your left."),
 			/**11*/ new Location("The other end of the parking lot", "You stand in the middle of the other end of the parking lot. It's kinda "
 					+ "spooky down here... To your \nleft is the friendly looking Rite Aid. In front of you, is the decrepid and creepy looking abandoned "
 					+ "\nStaples. The other end of the lot is behind you." , "You're back at the other end of the shopping center. You're still getting "
-                                        + "a weird vibe here, probably coming from the creepy abandoned Staples in front of you. The Rite Aid to your left looks nice and "
-                                        + "just turning around and going back to where you came from isn't a bad plan either."), //parking lot II.
+                    + "a weird vibe here, probably coming from the creepy abandoned Staples in front of you. The Rite Aid to your left looks nice and "
+                    + "just turning around and going back to where you came from isn't a bad plan either."), //parking lot II.
 			/**12*/ new Location("The Depths of the Hudson" , "You jump out the kitchen window and right into the Hudson... somehow. This "
 					+ "probably wasn't a \ngood idea, but whatever. It's fine. The water's nice.", "You jump back into the Hudson for..."
 					+ " some... reason...??"), //Depths of the Hudson
@@ -97,22 +96,31 @@ public class Location {
 			/**14*/ new Location ("The Green Room", "it's not green.", "it's still not green."), //TODO: Write real descriptions for Green Room
             /**15*/ new Location ("The Living Room of K1","You practically barge into the nearest townhouse in Lower New- K1. It's a cozy living "
             		+ "room of a town \nhouse inhabited by 8 sophomore girls, none of which appear to be home. You wonder why the door was \neven open..."
-            		+ "or what kind of useful things could be here. The kitchen is behind you, or you can go forward to go back outside.","You're "
-            		+ "back in the living room. There's some couches and a few cushy chairs and a TV. No humans though. The front door out to the green "
-                    + "is behind you, the kitchen is in front of you, and you can always go upstairs to the second floor."),
+            		+ "or what kind of useful things could be here. The kitchen is behind you, there's a \nflight of stairs up to the second floor in "
+            		+ "front of you, or you can go forward to go back outside.","You're back in the living room. There's some couches and a few cushy "
+            		+ "chairs and a TV. No humans though. \nThe front door out to the green is in front of you, the kitchen is behind you, and you "
+            		+ "can always go upstairs \nto the second floor."),
             /**16*/ new Location ("The K1 Kitchen","You find yourself in the kitchen. It's a pretty nice, standard kitchen. Two refridgerators, a "
-            		+ "mountain of garbage in the corner, someone's supply of Ramen. You know, the kitchen of a bunch of college girls. In front of "
-            		+ "you is the living room. Another option is going out the window to your right and going into the Hudson.","You're back in the "
-                    + "kitchen. There seems to be more trash than before but beyond that it's unchanged. There has to be something useful here..."),
+            		+ "mountain of \ngarbage in the corner, someone's supply of Ramen. You know, the kitchen of a bunch of college girls. In front \nof "
+            		+ "you is the living room. Another option is going out the window to your left and going into the Hudson.","You're back in the "
+                    + "kitchen. There seems to be more trash than before but beyond that it's unchanged. \nLiving room's in front of you, the river's "
+                    + "out the window to your left. There has to be something useful here..."),
             /**17*/ new Location ("The Upstairs Landing","This is the second floor at the top of the stairs. An open bedroom door to your right, the bathroom "
-                    + "behind you.","You're back on the landing. There's still an open bedroom door to your right and the bathroom behind you. There's a "
+                    + "\nbehind you.","You're back on the landing. There's still an open bedroom door to your right and the bathroom behind you. \nThere's a "
                     + "sink in front of you, but who knows how useful that'll be."),
             /**18*/ new Location ("Bedroom B","An innocent bedroom in a townhouse. It's a little messy and definitly don't have bottles of Smirnoff "
             		+ "\nhiding in it. The landing is to your left.","You're back in the bedroom. It's quaint, still kinda messy, and why is there a horde "
             		+ "of crocheted Daleks \nstaring at you from one of the beds. You can always retreat to the landing on your left."),
             /**19*/ new Location ("The Upstairs bathroom","You find yourself in the bathroom with the normal bathroom things. There's nothing bizarre in "
-            		+ "here, but maybe something useful.","You're in the bathroom once more. What lurks in a bathroom, only time will tell..."),
-            /**20*/ new Location ("The Office of Campus Security","","") //TODO: write descriptions of the security office.
+            		+ "here, \nbut maybe something useful.","You're in the bathroom once more. What lurks in a bathroom, only time will tell..."),
+            /**20*/ new Location ("The Office of Campus Security","",""), //TODO: write descriptions of the security office.
+            /**21*/ new Location ("The Construction Site","",""),
+            /**22*/ new Location ("Rite Aid","",""),
+            /**23*/ new Location ("Ocean State Job Lot","",""),
+            /**24*/ new Location ("Home Depot","",""),
+            /**25*/ new Location ("Lola's Cafe","",""),
+            /**26*/ new Location ("Squilliam's Lair","You Find yourself in The Lair of Squilliam Fancyson. Why? I Don't Know. You shouldn't be"
+            		+ " able to get here.","You're in Squilliam Fancyson's Lair again. How exactly?")            
 			}; 
 		/**used to determine where to go based on the player's location (row) and inputed command (column).*/
 		static int[][] navMatrix =  
@@ -127,10 +135,10 @@ public class Location {
 	/**5*/   {-1, -1, -1, 11, -1, -1}, //the abandoned Staples. //backwards to Parking Lot II
 	/**6*/   {-1, -1,  2, -1,  8, 20}, //the lounge with couches//forward is theatre, left is green, right is security  
 	/**7*/   {-1, -1, -1,  4, -1, -1}, //the shop //back is the stage
-	/**8*/   {-1, -1, -1, 15, 10,  6}, //the green //left is parking lot, back is K1, right is back inside, forward is construction site. 
+	/**8*/   {-1, -1, 21, 15, 10,  6}, //the green //left is parking lot, back is K1, right is back inside, forward is construction site. 
 	/**9*/   {-1, -1, -1, -1,  1, -1}, //the roof //left is the light booth
-	/**10*/  {-1, -1, 11, -1, -1,  8}, //Parking Lot I // forward is Lot II, back is Job Lot, Right is home depot
-	/**11*/  {-1, -1,  5, 10, -1, -1}, //Parking Lot II //back is Lot 1, forward is Staples , left is Rite Aid
+	/**10*/  {-1, -1, 11, 23, 24,  8}, //Parking Lot I // forward is Lot II, back is Job Lot, Right is home depot
+	/**11*/  {-1, -1,  5, 10, 22, -1}, //Parking Lot II //back is Lot 1, forward is Staples , left is Rite Aid
 	/**12*/  {-1, -1, -1, -1, -1, 16}, //Depths of the Hudson //right is the kitchen. 
 	/**13*/  {-1, -1, -1, 14, -1, -1}, //Green Room bathroom //back is Green Room
 	/**14*/  {-1, -1, 13,  6,  4, -1}, //Green room. Forward is bathroom, backward is lounge, left is stage
@@ -140,6 +148,12 @@ public class Location {
     /**18*/  {-1, -1, -1, -1, 17, -1}, //K1 Bedroom B, backward is the landing.
     /**19*/  {-1, -1, 17, -1, -1, -1}, //The K1 upstairs bathroom, forward is the landing
     /**20*/  {-1, -1, -1, -1,  6, -1}, //Campus Security, left is the lounge.
+    /**21*/  {-1, -1, -1,  8, -1, -1}, //Construction Site, backward is the green
+    /**22*/  {-1, -1, -1, -1, -1, 11}, //Rite Aid, right is Parking Lot II
+    /**23*/  {-1, 26, 10, -1, -1, -1}, //Job Lot, forward is Parking Lot I
+    /**24*/  {-1, -1, -1, -1, -1, 10}, //Home Depot, right is parking lot I
+    /**25*/  {-1, -1, -1, -1, -1, -1}, //Lola's- the only way to get there is to hop there. 
+    /**26*/  { 5, -1, -1, -1, -1, -1}, //The location Michael Hercules Sirico added.   
 				};
 		/**changes isVisited from false to true when the player goes there.*/
 		void changeVisited(){
@@ -153,20 +167,51 @@ public class Location {
 		/**subtracts item from location*/ //when you pick up an item.-- replaced by default arraylist.remove list. 
 		/**prints the names of the item(s) in that location.*/
 		void examine() {
-			printItemDescriptions();
-			System.out.println("\nWhat's in " + this.locationName + ": ");
-			examineItems(); //calls the examine items method.
-			examineContainers(); //calls the examine containers method.
-			System.out.println("");
-			if (this.items.isEmpty() && this.receptacle.isEmpty())
-				System.out.println("There's nothing here to examine.");
+			if (!isItEmpty()){
+				printItemDescriptions();
+				System.out.println("\nWhat's in " + this.locationName + ": ");
+				examineItems(); //calls the examine items method.
+				examineContainers(); //calls the examine containers method.
+				System.out.println("");}
 		}
 		/**prints the names of the items in that location*/
 		void examineItems(){
 			if (!this.items.isEmpty())
-				for (int i = 0; i < this.items.size(); i++){
+				for (int i = 0; i < this.items.size(); i++)
 					System.out.print(this.items.get(i).itemName + ", ");
+		}
+		/**prints the names and prices of the items available to be purchased*/
+		boolean examinePaidItems(){
+			int count = 0;
+			if (!this.items.isEmpty()){
+				for (int i = 0; i < this.items.size(); i++){
+					if (this.items.get(i).montaryValue != 0){
+						System.out.print(this.items.get(i).itemName + ", ");
+						count++;}
+				}
 			}
+			if  (!this.receptacle.isEmpty()){//if the location has containers.
+				for (int k = 0; k < this.receptacle.size(); k++){//loops through the containers in the location
+					if (!(this.receptacle.get(k) instanceof SpecialtyContainer)){//some containers are hidden, like the depths of the cove. 
+						for (int j = 0; j < this.receptacle.get(k).contents.size(); j++){//looks for the items in the non hidden containers
+							if (this.receptacle.get(k).contents.get(j).montaryValue  < 0){//if the item needs to be bought
+								System.out.print(this.receptacle.get(k).contents.get(j).itemName + " ($" + 
+										(this.receptacle.get(k).contents.get(j).montaryValue * -1) + "), ");
+								count++;}
+								}
+							}
+					}
+			}
+			if (count == 0){//it didn't find any items you need to pay for.
+				System.out.println("There's nothing here that costs money.");
+				return false;}
+			return true;
+		}
+		boolean isItEmpty(){
+			if (this.items.isEmpty() && (this.receptacle.isEmpty() || findSpecialtyContainers())){//if there's nothing in there.
+				System.out.println("\nThere's nothing here to do anything with.");
+				return true;}
+			return false;
 		}
 		void printItemDescriptions(){
 			if (!this.items.isEmpty()){
@@ -178,8 +223,16 @@ public class Location {
 		void examineContainers(){
 			if (this.receptacle != null)//checks and sees if there's any containers in the location.
 				for (int i = 0; i < this.receptacle.size(); i++)
-					if (this.receptacle.get(i).hidden != true)//if it's a hidden container, you don't know it's there, but it is...
+					if (!(this.receptacle.get(i) instanceof SpecialtyContainer))//if it's a hidden container, you don't know it's there, but it is...
 						System.out.print(this.receptacle.get(i).contName + ", ");
+		}
+		/**looks to see if there's any speciality containers in that location*/
+		boolean findSpecialtyContainers(){
+			if (this.receptacle != null)//checks and sees if there's any containers in the location.
+				for (int i = 0; i < this.receptacle.size(); i++)
+					if ((this.receptacle.get(i) instanceof SpecialtyContainer))
+						return true;
+			return false;
 		}
 		/**Do you get mauled by a goose on the green?*/
 		static boolean getMauled(){
@@ -198,8 +251,10 @@ public class Location {
 		    Location.places[6].addContainer(Container.couch3);
 		    Location.places[6].addContainer(Container.couch4);
 		    Location.places[13].addContainer(Container.closetBathroom);
-                    Location.places[15].addContainer(Container.K1Couch);
-                    Location.places[16].addContainer(Container.fridge);
+            Location.places[15].addContainer(Container.K1Couch);
+            Location.places[16].addContainer(Container.fridge);
+            Location.places[24].addContainer(Container.aisle15B);
+            Location.places[26].addContainer(Container.bb);
 		    
 		    /**Add items to places*/
 		    Location.places[0].addItem(Item.grabber);
@@ -209,12 +264,17 @@ public class Location {
 		    Location.places[18].addItem(Item.bottle);
             Location.places[19].addItem(Item.plunger);
             Location.places[20].addItem(Item.map);
-//          Location.places[23].addItem(Item.avocados);
+            Location.places[23].addItem(Item.avocados);
+            Location.places[25].addItem(Item.noodles);
+		    Location.places[26].addItem(Item.Unibrow); 
+         
 		    
 		    /**test purposes*/
-//		    Location.places[0].addItem(Item.otherWrench);
+		    Location.places[10].addItem(Item.otherWrench);
 //		    Location.places[0].addItem(Item.repellent);
 //		    Location.places[7].addItem(Item.repellent);
+            Location.places[7].addItem(Item.wrench);
+            Location.places[7].addItem(Item.keys);
 		    
 		    /**Adds items in containers*/
 		    Container.setItemsInContainers();

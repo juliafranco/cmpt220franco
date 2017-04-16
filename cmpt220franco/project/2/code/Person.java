@@ -11,6 +11,7 @@ public class Person {
 		ArrayList<Item> inventory = new ArrayList<>(); //holds a list of item objects in your inventory, can hold five items [can change if I want...].
 		final int MAX_INVENTORY = 5;
 		boolean inventoryEnabled = false; //determines if you can hold things. Starts out you can't.
+		double moneyHad;
 		//and money.
 		
 		//the player probably will inherent other things {inventory}, and the others will have a separate things.
@@ -28,9 +29,8 @@ public class Person {
 		StackOfIntegers beenTo = new StackOfIntegers(); //creates a new StackOfIntegers to be used for back function.
 		/**Get player's name*/
 		String getName(){
-			Scanner inputName = new Scanner(System.in);//creates a scanner object.
 			System.out.println("Enter your name.");
-			String yourName = inputName.next();
+			String yourName = MainFile.getSecondaryInput();
 			System.out.println("-------------------------------------------------\n");
 			return yourName;}
 		/**used to move player around the map*/
@@ -83,6 +83,7 @@ public class Person {
 	    void enableInventory (){
 	    	this.inventoryEnabled = true;}
 		void displayInventory(){
+			this.displayMoney();
 			this.displayPersonalInventory();
 			//displays secondary inventory, if anything. 
 			if (!Container.secondaryInv.contents.isEmpty()){//if there's something in there or not...
@@ -95,30 +96,40 @@ public class Person {
 		void displayPersonalInventory(){
 			//prints everything in personal inventory
 			if (this.inventory.isEmpty())//if it;s empty.
-				System.out.println("\nThere is nothing in your inventory.");
+				System.out.println("\nThere is nothing in your inventory." + this.displayMoney());
 			else{
 				System.out.println("\nYour inventory is: ");
 				for (int i = 0; i < this.inventory.size(); i++)//lloop through all the items in inventory
 					System.out.print(this.inventory.get(i).itemName + ", "); //and print them.
+				System.out.print(this.displayMoney());
 				System.out.println("");
 			}
 	//		System.out.print("\n"); //this is for formating purposes.
 		}
+		/**prints the money you have*/
+		String displayMoney(){
+			 if (this.moneyHad != 0)
+				 return " You have $" + this.moneyHad;
+			 return "";}
 		/**determines if you can add an item to the inventory*/
 		void determineAddItem (String itemToAdd){
 			if (this.inventory.size() >= MAX_INVENTORY) //checks if it's full
 				System.out.println("\nYour bag is full. Maybe try transferring a few things to a secure location... a box in the lightbooth perhaps?");
-			else Item.determineSamePlace(itemToAdd); //determines if the item is where the player is
+			else Item.takeItem(itemToAdd); //determines if the item is where the player is
 		}
 		/**adds an item to the inventory*/
 		void addItem(Item itemToAdd){
 			if (itemToAdd != Item.bookbag){//if it's not the bookbag which doesn't show up in your inventory
-				this.inventory.add(itemToAdd);
-				System.out.println("\nYou add the item to your inventory");
+				if (itemToAdd.montaryValue > 0){
+					this.moneyHad += itemToAdd.montaryValue;
+					System.out.println("\nYou shove the money in your pocket.");}
+				else {
+					this.inventory.add(itemToAdd);
+					System.out.println("\nYou add the item to your inventory");}
 				displayInventory();}
 		}
 		/**drops an item from inventory*/
-		void dropItem(String itemToCheck) {
+		void dropItem(String itemToCheck){
 			Item itemToFind = Item.determineItemsExistance(itemToCheck);//saves what the method returns as an item object
 			if (itemToFind != null){
 				if (this.inventory.contains(itemToFind)){
@@ -130,5 +141,77 @@ public class Person {
 					System.out.println("\nYou can't drop an item you don't have.");}
 				}
 		}
-		
+		void stealItem(String itemToSteal){
+			Item itemToFind = Item.determineItemsExistance(itemToSteal);//saves what the method returns as an item object
+			if (itemToFind != null){
+				Object [] returnedArgs = itemToFind.determineSamePlace();
+				if ((boolean) returnedArgs[0]){
+					System.out.println("\nAre you you sure you want to steal " + itemToSteal + "? y/n" );
+					if (MainFile.getSecondaryInput().equals("y")){
+						if (itemToFind.montaryValue == 0){
+							System.out.println("You dummy. It's free. Just take it like a normal person.");} 
+						else {
+							MainFile.displayQuit(10);
+							this.renderLocation = false;}
+					} else
+						System.out.println("\nYou put the item back where it came from go about your life, grateful you didn't make that dumb mistake.");
+				}
+			 }	 
+		}
+		boolean spendMoney(Item itemToBuy){
+			if (this.moneyHad >= (itemToBuy.montaryValue * -1)){
+				this.moneyHad += itemToBuy.montaryValue;
+				Person.player.inventory.add(itemToBuy);
+				System.out.println("You buy the item.");
+				this.displayInventory();
+				Person.player.CheckWrench(itemToBuy);
+				return true;}
+			else {
+				System.out.println("You don't have enough money to buy " + itemToBuy.itemName + " for " + (itemToBuy.montaryValue * -1) + 
+						this.displayMoney());
+				return false;}
+		}
+		/**Adds combined item to your inventory.*/
+		void AddCombinedItem(String itemsToCombine) {
+			CombinedItem itemToAdd = CombinedItem.combineItems(itemsToCombine);
+			if (itemToAdd != null){//if you've successfully created a combined item.
+				this.inventory.add(itemToAdd);//puts the item in your inventory.
+				Item.listOfItems.add(itemToAdd);//adds the item to the list of items that exist
+				System.out.println(".\n");//this is for formatting purposes.
+				System.out.println("You have created a " +itemToAdd.itemName);
+				this.displayInventory();
+				}
+		}
+		/**if you've got some kind of wrench, it askes you if you want to just quit.*/
+		void CheckWrench(Item maybeWrench){
+			for (int i =0; i < this.inventory.size(); i++){
+				if (maybeWrench.equals(Item.otherWrench)){
+					System.out.println("\nThis isn't the wrench you dropped, but it's a wrench. "
+				+ "Technically, you did what you set out to do. So you can \nput it back and go "
+				+ "about your life or keep trying to get the one you dropped. Keep trying y/n? ");
+					String input = MainFile.getSecondaryInput();
+					if (input.equals("y")){
+						return;}
+					else if (input.equals("n")){
+						MainFile.displayQuit(5);
+						this.renderLocation = false;
+						return;}
+				}
+				if (maybeWrench.equals(Item.purchasedWrench)){
+					System.out.println("\nYou bought a wrench. You're $" +(Item.purchasedWrench.montaryValue *-1)
+				+ " poorer now. You bought the thing so you might as well just put it \nback and go on with your "
+				+ "life, but you can keep trying if you want. Keep trying y/n? ");
+					String input = MainFile.getSecondaryInput();
+					if (input.equals("y")){
+						return;}
+					else if (input.equals("n")){
+						MainFile.displayQuit(6);
+						this.renderLocation = false;
+						return;}
+				}
+				if (maybeWrench.equals(Item.wrench)){
+					MainFile.displayQuit(2);
+					this.renderLocation = false;}
+			}
+		}
 }//closes out person class.

@@ -3,12 +3,11 @@ package code;
 public class Notes {
 	/**TODO:
 		//*
-         *Get money working.- at least finding it. Spending it will come.\
-         *Work on being able to descend items, what happens when you do.
-         *Be able to combine. - attach attributes to items.(lenght, grabby, nothing, etc)               
+         *Add more attributes to items
+         *Drive function- put the keys somewhere else until retrieval is working.   
+         *Get the item use going.       
 		 *Write more items 
-		 *Write more locations
-		 *Probably should draw up UMLs.
+		 *Finish location descriptions
 		 *make the input easier to work with.
 		 */
     /**FIXME: [to remove]: bypass command, maul command, bottle of Vodka 
@@ -27,6 +26,7 @@ public class Notes {
 							//y: It it a matter of honor. You need that wrench.
 							//n: you put the other wrench back and go on with your life. No one needs to know.
 								//this quits you out of the game.
+					//can get caught putting it back?? nah. They'll just assume it's the one you took up there.
 			//get points for finding things and combining items
 			//can you uncombine items?? Probably. [Can't reuse gaff tape]
 			//define how far down the wrench is, define lengths of items.
@@ -114,18 +114,17 @@ public class Notes {
 						//same command as taking an item, but doesn't go in your inventory, just trips the boolean to allow you to hold stuff. 
 					//put one in the spot op area.
 				//is there a limit to how many you can have?
-					//if there is, then there's a box in the lightbooth or cove walkway to hold other things, counts as secondary inventory.
-						//use boolean and if there's anything there, prints what's there. 
+					//if there is, then there's a box in the lightbooth or cove walkway to hold other things, counts as secondary inventory
 			//can you drop items through the grating? [I'm thinking no, unless you randomly lose your grip in retrieval.]
 			//four?? subclasses- attract/capture, length, secure, [ the main one does nothing.], items found in sotres [have cost attached] 
 		
-		 //1	//a crumpled $5 bill
+/**Done*///1	//a crumpled $5 bill
 					//breaks and makes change- you then have a dollar eighty one. or something. 
 					//if you find more money, it'll update. 
 						//can you find more money??
 					//money is its own separate data field. 
 /**Done*///2	//the grabber [cove walkway]
-		 //3	//a worklight
+/**Done*///3	//a worklight
 		 //4	//an extension cord [stage]
 		 //5	//rope
 		 //6	//pvc pipe
@@ -135,7 +134,7 @@ public class Notes {
 					//can theoretically buy more but it's 35 dollars. 
 						//you can't afford it.
 		 //9    //chewing gum
-		 //10   //eggs [a carton of a dozen.][kitchen]
+/**Done*///10   //eggs [a carton of a dozen.][kitchen]
 					//if you're going to drop it, it would have the same mechanics as trying to retrieve something.
 					//"Great. Now whatever's down there is covered in egg."
 						//the code remember that there's egg down there and affects game play.
@@ -173,6 +172,7 @@ public class Notes {
 /**Done*///27	//Goose Repellent
 					//if you have the goose repellent, it disables your ability to get mauled. The minute you don't have it....
 						//even if it's in your secondary inventory...
+/**Done*///28   //Peanut Noodles
 
 }
 /**VI. */ void People(){	
@@ -210,9 +210,9 @@ public class Notes {
 }
 /**VIII*/ void Implementation(){ 
 			/** DONE: start with locations and navigation writing functions and methods and objects
-			//introduce items and what happens when you use them as well as containers. */
+			//introduce items and what happens when you use them as well as containers. 
 				//determine solution[s] to getting the wrench
-				//introduce item retrieval.
+				//introduce item retrieval.*/
 			//write in people
 }
 }
