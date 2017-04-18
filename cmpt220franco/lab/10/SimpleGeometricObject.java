@@ -1,9 +1,10 @@
 package eight;
 
-public abstract class SimpleGeometricObject {
+public abstract class SimpleGeometricObject implements Comparable<SimpleGeometricObject> {
 	private String color = "white";
 	private boolean filled;
 	private java.util.Date dateCreated;
+	
 	/** Construct a default geometric object */
 	public SimpleGeometricObject() {
 		dateCreated = new java.util.Date();
@@ -41,7 +42,20 @@ public abstract class SimpleGeometricObject {
 		return "created on " + dateCreated + "\ncolor: " + color +
 				" and filled: " + filled;
 	}
-	
+	/** Abstract method getMax */
+	public static SimpleGeometricObject max(SimpleGeometricObject object1, SimpleGeometricObject object2) {
+		return object1.compareTo(object2) == 1 ? object1 : object2;
+		}
+	@Override 
+	// Implement the compareTo method defined in Comparable
+	public int compareTo(SimpleGeometricObject object) {
+		if (this.getArea() > object.getArea())
+			return 1;
+		else if (this.getArea() < object.getArea())
+			return -1;
+		else
+			return 0;
+}
 	 /** Abstract method getArea */
     public abstract double getArea();
 
