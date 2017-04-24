@@ -2,16 +2,10 @@ package code;
 
 public class Notes {
 	/**TODO:
-		//*
-         *Add more attributes to items
-         *Drive function- put the keys somewhere else until retrieval is working.   
-         *Get the item use going.       
 		 *Write more items 
 		 *Finish location descriptions
-		 *make the input easier to work with.
 		 */
-    /**FIXME: [to remove]: bypass command, maul command, bottle of Vodka 
-     * */	
+    /**FIXME: [to remove]: bypass command, maul command, bottle of Vodka */	
 	//Cove Wrench Drop: The Game.
 /**I.  */ void Story(){
 		//You have dropped the last wrench through the grating. Run around and try to get things to get the wrench back.
@@ -59,7 +53,7 @@ public class Notes {
 					//the depths? Can you go down there??
 						//this might not be somewhere you can go, but somewhere that holds the items down there.
 						//this is a container which contains some items. You "reach" into the container but it's a special class?
-		    //g     //Campus security.(20)
+		    //g //Campus security.(20)
 /**Done*/	//h	//the light booth (1)
 /**Done*/	//i	//the roof (9)
 /**Done*/	//j	//the couches (6)
@@ -69,20 +63,19 @@ public class Notes {
 /**Done*/	//l	//the green (8)
 				/**K1*/
 /**Done*/	    //m-q			//living room(15), kitchen(16), upstairs landing(17), bathrooom(19),bedroom B(18)
-		    //r	//the construction site[21]
-				//need to worry about people finding you.
-		    //s	//Home depot [24]
-		    //t	//rite aid [22]
-		    //u	//job lot [23]
-		    //v	//Lola's [25]
+/**Done*/  //r	//the construction site(21)
+		    //s	//Home depot (24)
+		    //t	//rite aid (22)
+/**Done*/   //u	//job lot (23)
+		    //v	//Lola's (25)
 					//has a few items that you could buy and eat. (like a sandwich or two and peanut noodles.)
 					//you'd probably need the car to get there.
-/**Done*/	//w    //Abandoned Staples which leads to a dimension of infinite wrenches. (5)
+/**Done*/	//w //Abandoned Staples which leads to a dimension of infinite wrenches. (5)
 					//"glitch" where you end up with a hundred trillion wrenches in the cove 
 						//does not actually put a hundred trillion wrench objects in the cove. 
 						//game ends by you getting smothered by wrenches. 
-/**Done*/	//x&y  //the parking lot where Home Depot & etc are (10 & 11)
-/**Done*/	//z    //the depths of the hudson (12)
+/**Done*/	//x&y //the parking lot where Home Depot & etc are (10 & 11)
+/**Done*/	//z   //the depths of the hudson (12)
 		
 			//Ability to go up and down places
 			//also open cabinets and drawers 
@@ -95,7 +88,6 @@ public class Notes {
 			//up, down, left, right, forwards, about face & backwards, go back [fully functioning][DONE.], use [for you item]
 			//pick up & put down [items]
 			//combine for items
-				//see early labs with indefinite numbers of integers inputed.
 			//can buy items- places that sell them will have prices attached to them [subclass of buyable item]
 				//obviously can only buy if you have the money.
 			//help- displays some useful commands- more as it goes forward and things are "unlocked"
@@ -125,15 +117,15 @@ public class Notes {
 					//money is its own separate data field. 
 /**Done*///2	//the grabber [cove walkway]
 /**Done*///3	//a worklight
-		 //4	//an extension cord [stage]
-		 //5	//rope
-		 //6	//pvc pipe
-		 //7	//2 x 4
+/**Done*///4	//an extension cord [stage]
+/**Done*///5	//rope
+/**Done*///6	//pvc pipe
+/**Done*///7	//2 x 4 [8 feet long]
 /**Done*///8	//gaff tape [start with a whole roll, when it's gone it's gone] [found in bathroom closet]
 					// when you use it, does it come off in random amounts?? Set amounts? Do you set it?
 					//can theoretically buy more but it's 35 dollars. 
 						//you can't afford it.
-		 //9    //chewing gum
+/**Done*///9    //chewing gum
 /**Done*///10   //eggs [a carton of a dozen.][kitchen]
 					//if you're going to drop it, it would have the same mechanics as trying to retrieve something.
 					//"Great. Now whatever's down there is covered in egg."
@@ -143,13 +135,13 @@ public class Notes {
 						//count how many eggs you have-  changes to empty carton when empty.
 		 //11	//a copy of Hamlet
 /**Done*///12	//a drill
-		 //13	//4 1 5/8" screws. [use them wisely]
+/**Done*///13	//4 1 5/8" screws. [use them wisely]
 /**Done*///14	//A BUNCH OF PAR CANS [as a collective unit]
-		 //15	//a 10 foot ladder [found on stage]
-		 //16	//some tuperware
-		 //17	//a really powerful magnet
+/**Done*///15	//a 10 foot ladder [found on stage]
+/**Done*///16	//some tuperware
+/**Done*///17	//a really powerful magnet
 /**Done*///18	//The Other Wrench
-		 //19	//a plunger, found in the upstairs bathroom of K1
+/**Done*///19	//a plunger, found in the upstairs bathroom of K1
 		 //20	//a car??
 /**Done*///21	//would need to also find car keys before it's any use. 
        					//you retrieve the car keys from the cove.
@@ -169,13 +161,14 @@ public class Notes {
 	 	 //26	//either Ally's keys, Michael's keys, or his wallet.
 					//if it's Ally's keys and you find Ally, and give them back, she gives you a wrench you can replace and you're home free??
 						//gives you a y/n option. 
+					//in one of the couches in the lounge.
 /**Done*///27	//Goose Repellent
 					//if you have the goose repellent, it disables your ability to get mauled. The minute you don't have it....
 						//even if it's in your secondary inventory...
 /**Done*///28   //Peanut Noodles
 
 }
-/**VI. */ void People(){	
+/**VI. */ void People(){	//this is probably not going to happen due to time contrastants.
 			//avoid people like Matt, Marc, and Jim because SHAME. Also custodian, Gus, who hears the clinking and clanking
 			//throw in Matthew Johnson, the "God Amoungst Men"?
 			//a house mate?

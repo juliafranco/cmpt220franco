@@ -58,11 +58,11 @@ public class SpecialtyContainer extends Container {
 	/**figures out what you've retrieved from the depths...*/
 	Item determineReturn(){
 		int retrievalnum = MainFile.getRandomNumber(this.getMultFactor());
-		if (retrievalnum == 12){
+		if (retrievalnum == 12 && this.contents.contains(Item.wrench)){//if the item is still down here. 
 			return Item.wrench;}
-		else if (retrievalnum == 50){
+		else if (retrievalnum == 50 && this.contents.contains(Item.otherWrench)){//if the item is still down here. 
 			return Item.otherWrench;}
-		else if (retrievalnum == 27 || retrievalnum == 43){
+		else if ((retrievalnum == 27 || retrievalnum == 43) && this.contents.contains(Item.keys)){//if the item is still down here. )
 			return Item.keys;}
 		return null;
 	}
@@ -71,15 +71,15 @@ public class SpecialtyContainer extends Container {
 	void GetFoundItem(){
 	Item itemFound = depths.determineReturn();
 	if (itemFound != null){
-		System.out.print("\nYou have retrieved " + itemFound.itemName + " from " + this.contName + ".");
-		Person.player.CheckWrench(itemFound);
-		this.removeItem(itemFound);
-		Person.player.addItem(itemFound);}
+		System.out.println("\nYou have retrieved " + itemFound.itemName + " from " + this.contName + ".");
+		System.out.println(itemFound.inLocationDescript);
+		Person.player.addItem(itemFound);
+		this.removeItem(itemFound);}
 	else
 		System.out.println("\nYour attempt to retrieve anything from " + this.contName + " was unsuccessful.");
 	}
 	/**if you've deployed some items that alter game play.*/
-	boolean alternateDeploy(Item itemDeployed){
+	boolean alternateDeploy(Item itemDeployed){//returns true if it does anything so it does nothing else.
 		if (itemDeployed.equals(Item.eggs)){
 			System.out.println("\nYou drop an egg into "+ this.contName + ". Great. Now whatever's down "
 					+ "there is covered in egg. \nGood luck getting anything down there now....");
@@ -88,9 +88,48 @@ public class SpecialtyContainer extends Container {
 			Item.eggs.removeItemUses();//removes uses from the eggs
 			return true;}
 		if(itemDeployed.equals(Item.avocados)){
-			Person.player.renderLocation = false;
 			MainFile.displayQuit(11);
 			return true;}
+		if(itemDeployed.equals(Item.car)){
+			MainFile.displayQuit(15);
+			return true;}
+		if(itemDeployed.equals(Item.ladder)){
+			System.out.println("\nYou drop the ladder into " + this.contName +". The top is about 6 feet below"
+					+ " where you're standing. \nDo you lower yourself carefully over the edge and go down there yourself? (y/n)");
+			String input = MainFile.getSecondaryInput();
+			if (input.equalsIgnoreCase("y")){
+				this.navigate();}
+			else if (input.equalsIgnoreCase("n")){
+				System.out.println("\nYou decide against it, and go about your attempts to get that wrench back from the walkway.");}
+			return true;
+		}
 		return false;
 	}
-}
+	/**if you've used the ladder to go into the depths of the cove*/
+	void navigate() {
+		if (Person.player.inventory.contains(Item.workLight)){//if you can see everything in the depths
+			System.out.print("\nYou shine the worklight around " + this.contName + ". You see everything "
+					+ "down here....");  
+			this.printContainerContents();//prints what's here
+			if (this.contents.contains(Item.wrench)){//if the wrench is there
+				System.out.println("\nDo you take the wrench? (y/n)");
+				int ceiling = MainFile.getRandomNumber(2);
+				String input = MainFile.getSecondaryInput();//prompts for user input
+				if (ceiling == 1){
+					//this determines if you fall through the ceiling in trying to walk to the wrench
+					MainFile.displayQuit(13);
+					return;}
+				//since you're taking the wrench anyways, only need the "no" answer hard coded
+				if (input.equalsIgnoreCase("n")){
+					System.out.println("\nYou realize that you're dumb for not taking the wrench, and therefore take "
+					+ "it anyway.");}
+				MainFile.displayQuit(12);//breaks out of the game
+				return;}
+		} else {
+			System.out.println("\nYou go down into the blackness. It's very, very dark. You nope out and go back up "
+			+ "because you're never \ngoing to find anything in this darkness and your foot's probably gonna go "
+			+ "through the ceiling.");
+			return;}
+	}
+		
+}//end of this class.

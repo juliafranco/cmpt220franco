@@ -11,6 +11,7 @@ public class Location {
 		boolean isVisited = false; //tracks if you've been somewhere before.
 		ArrayList<Item> items = new ArrayList<>(); //holds an array list of item objects present in the location. 
 		ArrayList<Container> receptacle = new ArrayList<>(); //holds a list of containers present in the location. 
+		boolean drivable;
 
 		/**no args constructor*/
 		Location(){}
@@ -19,6 +20,13 @@ public class Location {
 			locationName = placeName;
 			locationDescription = placeDescript;
 			altDescription = altDescript;
+		}	
+		/**Constructor for places you can drive to*/
+		Location( String placeName, String placeDescript, String altDescript, boolean canDrive){
+			locationName = placeName;
+			locationDescription = placeDescript;
+			altDescription = altDescript;
+			drivable = canDrive;
 		}	
 		/**list of locations in the game.*/
 		static Location[] places = 
@@ -85,15 +93,18 @@ public class Location {
 			/**11*/ new Location("The other end of the parking lot", "You stand in the middle of the other end of the parking lot. It's kinda "
 					+ "spooky down here... To your \nleft is the friendly looking Rite Aid. In front of you, is the decrepid and creepy looking abandoned "
 					+ "\nStaples. The other end of the lot is behind you." , "You're back at the other end of the shopping center. You're still getting "
-                    + "a weird vibe here, probably coming from the creepy abandoned Staples in front of you. The Rite Aid to your left looks nice and "
-                    + "just turning around and going back to where you came from isn't a bad plan either."), //parking lot II.
-			/**12*/ new Location("The Depths of the Hudson" , "You jump out the kitchen window and right into the Hudson... somehow. This "
-					+ "probably wasn't a \ngood idea, but whatever. It's fine. The water's nice.", "You jump back into the Hudson for..."
+                    + "a weird vibe here, probably coming \nfrom the creepy abandoned Staples in front of you. The Rite Aid to your left looks nice and "
+                    + "\njust turning around and going back to where you came from isn't a bad plan either.", true), //parking lot II.
+			/**12*/ new Location("The Depths of the Hudson" , "You jump out the window and right into the Hudson... somehow. This probably wasn't "
+					+ "a \ngood idea, but whatever. It's fine. The water's nice and the kitchen's to your right", "You jump back into the Hudson for..."
 					+ " some... reason...??"), //Depths of the Hudson
 			/**13*/ new Location("The Backstage Bathroom", "You are in a small bathroom off of the green room. Not much to look at, nothing posh. "
 					+ "Just standard \nbathroom stuff. Behind you is the Green Room. Next to you is... a cabinet?", "You're back in the bathroom. "
 					+ "Green Room's behind you, cabinet's to your left. At least it doesn't smell."), //the bathroom off the green room
-			/**14*/ new Location ("The Green Room", "it's not green.", "it's still not green."), //TODO: Write real descriptions for Green Room
+			/**14*/ new Location ("The Green Room", "You are now in the backstage green room. It's not green. It's really just a room backstage. "
+					+ "There's a \nbathroom in front of you, the door out to the lounge behind you, and the stage is out to your left.", "You're back "
+					+ "in the green room. It's still not green. The bathroom's in front of you, the stage is \nto your right, and the lounge is through "
+					+ "the door behind you."), //the green room
             /**15*/ new Location ("The Living Room of K1","You practically barge into the nearest townhouse in Lower New- K1. It's a cozy living "
             		+ "room of a town \nhouse inhabited by 8 sophomore girls, none of which appear to be home. You wonder why the door was \neven open..."
             		+ "or what kind of useful things could be here. The kitchen is behind you, there's a \nflight of stairs up to the second floor in "
@@ -110,17 +121,31 @@ public class Location {
                     + "sink in front of you, but who knows how useful that'll be."),
             /**18*/ new Location ("Bedroom B","An innocent bedroom in a townhouse. It's a little messy and definitly don't have bottles of Smirnoff "
             		+ "\nhiding in it. The landing is to your left.","You're back in the bedroom. It's quaint, still kinda messy, and why is there a horde "
-            		+ "of crocheted Daleks \nstaring at you from one of the beds. You can always retreat to the landing on your left."),
+            		+ "of crocheted Daleks \nstaring at you from one of the beds. You can always retreat to the landing on your left, or just jump out the "
+            		+ "window...."),
             /**19*/ new Location ("The Upstairs bathroom","You find yourself in the bathroom with the normal bathroom things. There's nothing bizarre in "
             		+ "here, \nbut maybe something useful.","You're in the bathroom once more. What lurks in a bathroom, only time will tell..."),
-            /**20*/ new Location ("The Office of Campus Security","",""), //TODO: write descriptions of the security office.
-            /**21*/ new Location ("The Construction Site","",""),
-            /**22*/ new Location ("Rite Aid","",""),
-            /**23*/ new Location ("Ocean State Job Lot","",""),
-            /**24*/ new Location ("Home Depot","",""),
-            /**25*/ new Location ("Lola's Cafe","",""),
+            /**20*/ new Location ("The Office of Campus Security","You are now in the office of campus security, home of the lost and found and the people "
+            		+ "you complain \nto about getting unjustified parking tickets. If you have issues, they're here.","You're back in the office of campus "
+            		+ "security. Useful if you feel unsafe or just have a zillion \nquestions. Or if you lost your phone."), //sole purpose at this point is 
+            			//it's a logical place to put a map.
+            /**21*/ new Location ("The Construction Site","You sneak into the luckily deserted construction site. There's a variety of construction "
+            		+ "supplies, as \none would expect. Maybe there's something here you can use. Or, alternatly, just creep around the \nconstruction site "
+            		+ "because they're pretty cool. Will give you bragging rights when your friends end up \nliving here after next year. The green is behind "
+            		+ "you.","You return to the construction site. Next year, there will be new dorms here. But right now? All the construction \nsupplies "
+            		+ "you think no one would miss. If you go backward, you'll be on the green."), 
+            /**22*/ new Location ("Rite Aid","",""),//TODO: Write Rite aid descriptions
+            /**23*/ new Location ("Ocean State Job Lot","Behold! It is the majesty of the Ocean State Job Lot. It sells an eclectic assortment of things "
+            		+ "at a price \nthat can't be beat. There's something about it that acts as a beacon for bored college students on lazy nights. \nWhat "
+            		+ "lies within? Why don't you find out?","You are back in Job Lot. You're definitely going to find more weird stuff here than before. "
+            		+ "You also wonder \nwhat lies below..."),
+            /**24*/ new Location ("Home Depot","",""), //TODO: Write Home Depot descriptions
+            /**25*/ new Location ("Lola's Cafe","","", true), //TODO: Write Lola's descriptions
             /**26*/ new Location ("Squilliam's Lair","You Find yourself in The Lair of Squilliam Fancyson. Why? I Don't Know. You shouldn't be"
-            		+ " able to get here.","You're in Squilliam Fancyson's Lair again. How exactly?")            
+            		+ " able to get here.","You're in Squilliam Fancyson's Lair again. How exactly?"),
+            /**27*/ new Location ("Wawa" ,"You arrive at the one beautiful thing that's worth visiting in New Jersey (besides the beach)- Wawa, the one in "
+            		+ "Lodi to be exact. Wawa has a lot of food, all of it equally delicious. Why don't you have a look around to see just what's in store."
+            		, "You arrive back at Wawa, ready to acquire food from from this magical paradise." ,true) 
 			}; 
 		/**used to determine where to go based on the player's location (row) and inputed command (column).*/
 		static int[][] navMatrix =  
@@ -145,7 +170,7 @@ public class Location {
     /**15*/  {17, -1,  8, 16, 17, -1}, //The K1 Living Room //forward is the green, backward is the kitchen, up is the upstairs landing
     /**16*/  {-1, -1, 15, -1, 12, -1}, //K1 Kitchen //back is livingroom, left is depths of the Hudson
     /**17*/  {-1, 15, -1, 19, -1, 18}, //K1 Upstairs landing. down is living room, right is Bedroom B, backward is the bathroom.
-    /**18*/  {-1, -1, -1, -1, 17, -1}, //K1 Bedroom B, backward is the landing.
+    /**18*/  {-1, -1, 12, -1, 17, -1}, //K1 Bedroom B, left is the landing,  forward is out the window into the Hudson, bending the laws of space.
     /**19*/  {-1, -1, 17, -1, -1, -1}, //The K1 upstairs bathroom, forward is the landing
     /**20*/  {-1, -1, -1, -1,  6, -1}, //Campus Security, left is the lounge.
     /**21*/  {-1, -1, -1,  8, -1, -1}, //Construction Site, backward is the green
@@ -154,6 +179,7 @@ public class Location {
     /**24*/  {-1, -1, -1, -1, -1, 10}, //Home Depot, right is parking lot I
     /**25*/  {-1, -1, -1, -1, -1, -1}, //Lola's- the only way to get there is to hop there. 
     /**26*/  { 5, -1, -1, -1, -1, -1}, //The location Michael Hercules Sirico added.   
+    /**27*/  {-1, -1, -1, -1, -1, -1}, //Wawa- the only way to get there is to hop there. 
 				};
 		/**changes isVisited from false to true when the player goes there.*/
 		void changeVisited(){
@@ -174,6 +200,23 @@ public class Location {
 				examineContainers(); //calls the examine containers method.
 				System.out.println("");}
 		}
+		/**looks to see where the player can drive*/
+		void getDrivableLocations() {
+			System.out.print("\nPlaces you can drive to: ");
+			for (int i = 0; i < places.length; i++)
+				if (places[i].drivable) //looks to see if you can drive there  
+					if ((places[i] != this)) //if it's not you're current location.
+						System.out.print(places[i].locationName + ", ");	//prints the name of the location	
+			System.out.println("\n");
+		}
+		static int determineLocationExistence(String locationName) {
+			for (int i = 0; i < places.length; i++){
+				if (locationName.equalsIgnoreCase(places[i].locationName)){
+					//loops through the items in the list of items, looks to see if the string matches the name or combine key (a one or two word version
+					//of the name.
+					return i;}
+			} return -1;
+		}
 		/**prints the names of the items in that location*/
 		void examineItems(){
 			if (!this.items.isEmpty())
@@ -186,7 +229,7 @@ public class Location {
 			if (!this.items.isEmpty()){
 				for (int i = 0; i < this.items.size(); i++){
 					if (this.items.get(i).montaryValue != 0){
-						System.out.print(this.items.get(i).itemName + ", ");
+						System.out.print(this.items.get(i).itemName + " ($" + (this.items.get(i).montaryValue * -1) + "), ");
 						count++;}
 				}
 			}
@@ -207,6 +250,7 @@ public class Location {
 				return false;}
 			return true;
 		}
+		/**looks to see if there's anything here. Returns true if there isn't*/
 		boolean isItEmpty(){
 			if (this.items.isEmpty() && (this.receptacle.isEmpty() || findSpecialtyContainers())){//if there's nothing in there.
 				System.out.println("\nThere's nothing here to do anything with.");
@@ -246,6 +290,7 @@ public class Location {
 	    	/**Add containers to places*/
 	    	Location.places[0].addContainer(Container.depths);
 	    	Location.places[1].addContainer(Container.secondaryInv);
+	    	Location.places[4].addContainer(Container.SRCloset);
 	    	Location.places[6].addContainer(Container.couch1);
 		    Location.places[6].addContainer(Container.couch2);
 		    Location.places[6].addContainer(Container.couch3);
@@ -253,6 +298,7 @@ public class Location {
 		    Location.places[13].addContainer(Container.closetBathroom);
             Location.places[15].addContainer(Container.K1Couch);
             Location.places[16].addContainer(Container.fridge);
+            Location.places[23].addContainer(Container.autoAisle);
             Location.places[24].addContainer(Container.aisle15B);
             Location.places[26].addContainer(Container.bb);
 		    
@@ -260,20 +306,28 @@ public class Location {
 		    Location.places[0].addItem(Item.grabber);
 		    Location.places[1].addItem(Item.parcans);
 		    Location.places[3].addItem(Item.bookbag);
+		    Location.places[4].addItem(Item.ladder);
 		    Location.places[7].addItem(Item.drill);
+		    Location.places[7].addItem(Item.screws);
+		    Location.places[7].addItem(Item.pipe);
+		    Location.places[7].addItem(Item.twobyfour);
+		    Location.places[8].addItem(Item.rope);
+		    Location.places[11].addItem(Item.car);
+		    Location.places[12].addItem(Item.twentyDollars);
+		    Location.places[16].addItem(Item.tupperware);
 		    Location.places[18].addItem(Item.bottle);
             Location.places[19].addItem(Item.plunger);
             Location.places[20].addItem(Item.map);
+            Location.places[21].addItem(Item.magnet);
             Location.places[23].addItem(Item.avocados);
             Location.places[25].addItem(Item.noodles);
 		    Location.places[26].addItem(Item.Unibrow); 
-         
 		    
 		    /**test purposes*/
 		    Location.places[10].addItem(Item.otherWrench);
 //		    Location.places[0].addItem(Item.repellent);
 //		    Location.places[7].addItem(Item.repellent);
-            Location.places[7].addItem(Item.wrench);
+//          Location.places[7].addItem(Item.wrench);
             Location.places[7].addItem(Item.keys);
 		    
 		    /**Adds items in containers*/
@@ -289,4 +343,5 @@ public class Location {
 	    	}
 	    	Container.emptyContainer();
 	    }
+				
 } //closes out the location class.

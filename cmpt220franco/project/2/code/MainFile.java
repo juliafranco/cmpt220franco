@@ -3,6 +3,7 @@ package code;
 import java.util.Scanner;
 
 public class MainFile {
+	/**main method, contains the massive 200 lines of code of game loop.*/
 	public static void main (String[] args){
 		Location.setItemsAndContainers();//calls the function location class to put items and containers where they belong.
 		printOpening(); //calls the function to print the introduction of the game.
@@ -25,87 +26,95 @@ public class MainFile {
 			//can't combine these without calling the function twice. So don't try it. Again.
 			
 			/**basic game functions*/
-			if (todo.equals("quit")){//if the user wants to get out of the game.
+			if (todo.equalsIgnoreCase("quit")){//if the user wants to get out of the game.
 				if (Person.player.locationIndex == 12)//this is the ending if you quit out of the Depths of the Hudson.
 					displayQuit(8);
 				else 
 					displayQuit(0);//calls the quit function with the correct ending (quit code, tells switch ending to print)
 				break;
-			} else if (todo.equals("Nirvana?")){//this is a random ending used to test if switch cases had to be sequential and left because it's funny.
+			} else if (todo.equalsIgnoreCase("Nirvana?")){//this is a random ending used to test if switch cases had to be sequential and left because it's funny.
 				displayQuit(4);
 				break;
-			} else if (todo.equals("help"))//prints help message.
+			} else if (todo.equalsIgnoreCase("help"))//prints help message.
 				displayHelp();//calls the function that prints the help message. 
 			
-			else if (todo.equals("maul")){ //I don't need  this. but it's here.
-				for (int i =0; i < 30; i++){
-					System.out.println(getRandomNumber(30));}
-				Person.player.moneyHad += 15.09;}
-			
-			else if (todo.equals("test")){//framework for test command
-				try {
-					String []splits = splitInput(nameOfThing, " with ");
-					if (!(splits == null)){
-						System.out.println(splits[1] + " instead of " + splits[0] );}
-					}
-				catch (ArrayIndexOutOfBoundsException ex){
-					System.out.println("Please enter two arguements separated by 'with'" );}
-				
-			}
-			else if (todo.equals("dropit")){
-				SpecialtyContainer.depths.GetFoundItem();
-			}
-				
-			/**navigation commands*/
-			else if (todo.equals("up")) //executes the up command
-				Person.player.moveLocation(0); //0 is the column for up
-			else if (todo.equals("down"))//executes the down command.
-				Person.player.moveLocation(1);//1 is the column for down.
-			else if (todo.equals("forward"))//execute the command
-				Person.player.moveLocation(2);//2 is the column for forward
-			else if (todo.equals("backward"))//executes the backward command
-				Person.player.moveLocation(3);//3 is the column for backward.
-			else if (todo.equals("left"))//executes the left command
-				Person.player.moveLocation(4);//4 is the column for left.
-			else if (todo.equals("right"))//executes the right command
-				Person.player.moveLocation(5);//5 is the column for right.
-			else if (todo.equals("back"))//takes the player back to the previous location.
-				Person.player.goBack(); //calls the go back function.
-			else if (todo.equals("current"))//renders the current location. 
-				Person.player.renderCurrentLocation();
-			
 			/**Bypass Commands*/ //used to bypass stuff in the game to make testing less annoying
-			else if (todo.equals("jump")){ //jump to a specific location, to be removed before final product is finished.
+			else if (todo.equalsIgnoreCase("jump")){ //jump to a specific location, to be removed before final product is finished.
 				if (Integer.parseInt(nameOfThing) < Location.places.length){
 					Person.player.locationIndex = Integer.parseInt(nameOfThing);
 					Person.player.beenTo.push(Person.player.locationIndex);
 					Person.player.renderLocation();}
 				}
-			else if (todo.equals("bookbag"))
+			else if (todo.equalsIgnoreCase("bookbag"))
 				Person.player.enableInventory();
 			
+			else if (todo.equalsIgnoreCase("maul")){ //I don't need  this. but it's here.
+				for (int i =0; i < 30; i++){
+					System.out.println(getRandomNumber(30));}
+				Person.player.moneyHad += 15.09;}
+			
+			else if (todo.equalsIgnoreCase("test")){//framework for test command
+				Person.player.enableInventory();
+				Person.player.inventory.add(Item.workLight);
+				Person.player.inventory.add(Item.ladder);
+				System.out.println(Item.listOfItems);
+			}
+			else if (todo.equalsIgnoreCase("dropit")){
+				SpecialtyContainer.depths.GetFoundItem();
+			}
+			
+			else if (todo.equalsIgnoreCase("Shia")){
+				System.out.println("\nHollywood Superstar...");
+			}
+//			else if (todo.length() == 8){ //this kept making my code not work so out it goes.
+//				if (todo.substring(0, 3).equals("200")){
+//					System.out.println("\n...did you just try to enter someone's id number?");
+//					continue;}
+//				return; //this makes it ignore it if it's less than 8 characters. Otherwise, it won't keep going.
+//			}//this totally didn't happen. Why would I do a thing like that?
+				
+			/**navigation commands*/
+			else if (todo.equalsIgnoreCase("up")) //executes the up command
+				Person.player.moveLocation(0); //0 is the column for up
+			else if (todo.equalsIgnoreCase("down"))//executes the down command.
+				Person.player.moveLocation(1);//1 is the column for down.
+			else if (todo.equalsIgnoreCase("forward"))//execute the command
+				Person.player.moveLocation(2);//2 is the column for forward
+			else if (todo.equalsIgnoreCase("backward"))//executes the backward command
+				Person.player.moveLocation(3);//3 is the column for backward.
+			else if (todo.equalsIgnoreCase("left"))//executes the left command
+				Person.player.moveLocation(4);//4 is the column for left.
+			else if (todo.equalsIgnoreCase("right"))//executes the right command
+				Person.player.moveLocation(5);//5 is the column for right.
+			else if (todo.equalsIgnoreCase("back"))//takes the player back to the previous location.
+				Person.player.goBack(); //calls the go back function.
+			else if (todo.equalsIgnoreCase("current"))//renders the current location. 
+				Person.player.renderCurrentLocation();
+			
 			/**Item Commands*/
-			else if (todo.equals("examine")){ 
+			else if (todo.equalsIgnoreCase("examine")){ 
 				if (!nameOfThing.equals("")) //if you've specified an item/container
 					Item.printItemDescription(nameOfThing);
 				else
 					Location.places[Person.player.locationIndex].examine();}//prints out list of containers and items in location.
 			
-			else if (todo.equals("rummage")){ //displays a list of all the things in the container.
+			else if (todo.equalsIgnoreCase("rummage")){ //displays a list of all the things in the container.
 				if (Location.places[Person.player.locationIndex].receptacle.isEmpty() || 
 						Location.places[Person.player.locationIndex].findSpecialtyContainers()){//if there's nothing in there.
 					System.out.println("\nThere's nothing here to rummage through.");
 					continue;}
 				else if (nameOfThing.equals("")){ //if you don't specify a container.
-					System.out.println("\nPlease specify a container to rummage through.\n");
+					System.out.println("\nPlease specify a container to rummage through or hit enter to continue.\n");
 					Location.places[Person.player.locationIndex].examineContainers();//prints out list of containers in location.
-					nameOfThing = getSecondaryInput();}
+					nameOfThing = getSecondaryInput();
+					if (nameOfThing.equals(""))
+						continue;}
 				Container.printContainerContents(nameOfThing);
 			}//closes rummage else if
 			
-			else if (todo.equals("take")){
+			else if (todo.equalsIgnoreCase("take")){
 				if (!Person.player.inventoryEnabled){
-					if (nameOfThing.equals(Item.bookbag.itemName)){
+					if (nameOfThing.equalsIgnoreCase(Item.bookbag.itemName)){
 						System.out.println("\nYou pick up the book bag. You are now able to hold an inventory in it.");
 						Person.player.enableInventory();
 						continue;
@@ -115,93 +124,148 @@ public class MainFile {
 						continue;}
 				} else if (!(Location.places[Person.player.locationIndex].isItEmpty())){//if there's something there.
 					if (nameOfThing.equals("")){ //if you don't specify an item.
-						System.out.print("\nPlease specify an item to take.\n");
+						System.out.print("\nPlease specify an item to take or hit enter to continue.\n");
 						if (!Location.places[Person.player.locationIndex].receptacle.isEmpty()){
-							System.out.println("(There may be items hiding inside of something else... try rummaging for them.)\n");}
+							System.out.println("(There may be items hiding inside of something else... try rummaging for them. You can't"
+									+ " take containers.)\n");}
 						Location.places[Person.player.locationIndex].examineItems();//prints out list of the items in the location, 
-						nameOfThing = getSecondaryInput();}
+						nameOfThing = getSecondaryInput();
+						if (nameOfThing.equals(""))
+							continue;}
 					Person.player.determineAddItem(nameOfThing);
 					}
 				}//closes take function
 			
-			else if (todo.equals("steal")){
+			else if (todo.equalsIgnoreCase("steal")){
 				if (!(Location.places[Person.player.locationIndex].isItEmpty())){//if there's something there.
 					if (nameOfThing.equals("")){ //if you don't specify an item.
-						System.out.print("\nPlease specify an item to steal.\n");
+						System.out.print("\nPlease specify an item to steal or hit enter to continue.\n");
 						if (!Location.places[Person.player.locationIndex].receptacle.isEmpty()){
 							System.out.println("(There may be items hiding inside of something else... try rummaging for them.)\n");}
 						if (!Location.places[Person.player.locationIndex].examinePaidItems()){//prints out the items there you can buy.
 							continue;}
 						else {
-							nameOfThing = getSecondaryInput();}
+							nameOfThing = getSecondaryInput();
+							if (nameOfThing.equals(""))
+								continue;}
 						}
 					Person.player.stealItem(nameOfThing);}
 				}//closes take function
 			
-			else if (todo.equals("buy")){
+			else if (todo.equalsIgnoreCase("buy")){
 				if (!(Location.places[Person.player.locationIndex].isItEmpty())){
 					if (nameOfThing.equals("")){ //if you don't specify an item.
 						System.out.print("\nPlease specify an item to buy.\n");
-						if (!Location.places[Person.player.locationIndex].examinePaidItems()){//prints out list of the items in the location, if there are any.
+						if (!Location.places[Person.player.locationIndex].examinePaidItems()){
+							//prints out list of the items in the location, if there are any.
 							continue;}
-						nameOfThing = getSecondaryInput();}
+						nameOfThing = getSecondaryInput();
+						if (nameOfThing.equals(""))
+							continue;}
 					Item.buyItem(nameOfThing);}
 				}//closes take function
 			
-			else if (todo.equals("drop")){
+			else if (todo.equalsIgnoreCase("drop")){
 				if (!Person.player.inventoryEnabled){
 						System.out.println("\nYou can't drop something from an inventory you don't have.");
 						continue;}
 				if (nameOfThing.equals("")){ //if you haven't specified an item
 					System.out.print("\nPlease specify an item to drop.\n");
 					Person.player.displayPersonalInventory();//prints out list of the items in your inventory you can drop
-					nameOfThing = getSecondaryInput();}
+					nameOfThing = getSecondaryInput();
+					if (nameOfThing.equals(""))
+						continue;}
 				Person.player.dropItem(nameOfThing);//if you have specified an item, it drops to here.
 				}//closes take function
 			
-			else if (todo.equals("transfer")){//move an item from inventory to the box in the light booth
+			else if (todo.equalsIgnoreCase("transfer")){//move an item from inventory to the box in the light booth
 				if (!Person.player.inventoryEnabled){
 					System.out.println("You don't have an inventory to be able to have anything to transfer anywhere.");
 					continue;}
 				if (nameOfThing.equals("")){ //if you haven't specified an item to transfer
 					System.out.println("\nPlease specify an item to transfer to secondary storage.");
 				    Person.player.displayPersonalInventory();
-				    nameOfThing = getSecondaryInput();}
+				    nameOfThing = getSecondaryInput();
+				    if (nameOfThing.equals(""))
+						continue;}
 				Item.TransferItem(nameOfThing);}
 			
-			else if (todo.equals("inventory")) //displays your inventory				
+			else if (todo.equalsIgnoreCase("inventory")) //displays your inventory				
 				if (Person.player.inventoryEnabled)
 					Person.player.displayInventory();
 				else 
 					System.out.println("\nYou have no inventory, nor anything to hold it with.");
 			
-			else if (todo.equals("show")){//displays the map
-				if( nameOfThing.equals("map")){
+			else if (todo.equalsIgnoreCase("show")){//displays the map
+				if( nameOfThing.equalsIgnoreCase("map")){
 					Item.displayMap();
 				} else {
 					System.out.println("\n Nothing to display... move along...");}
 			}
 
-			else if (todo.equals("deploy")){//to send an item into the depth of the Cove in hopes of getting the wrench
+			else if (todo.equalsIgnoreCase("deploy")){//to send an item into the depth of the Cove in hopes of getting the wrench
 				if (!Person.player.inventoryEnabled){
 						System.out.println("\nYou can't deploy anything from an inventory you don't have.");
 						continue;}
 				if (nameOfThing.equals("")){ //if you haven't specified an item
 					System.out.print("\nPlease specify an item to deploy.\n");
 					Person.player.displayPersonalInventory();//prints out list of the items in your inventory you can d
-					nameOfThing = getSecondaryInput();}
+					nameOfThing = getSecondaryInput();
+					if (nameOfThing.equals(""))
+						continue;}
 				SpecialtyContainer.depths.deployItem(nameOfThing);//if you have specified an item, it drops to here.
 				}//closes deploy function
 			
-			else if (todo.equals("combine")){//move an item from inventory to the box in the light booth
+			else if (todo.equalsIgnoreCase("combine")){//move an item from inventory to the box in the light booth
 				if (!Person.player.inventoryEnabled){
 					System.out.println("\nYou don't have an inventory to be able to have anything to combine.");
 					continue;}
 				if (nameOfThing.equals("")){ //if you haven't specified anything to combine
 					System.out.println("\nPlease specify two items to combine [item1 with item2].");
 				    Person.player.displayPersonalInventory();
-				    nameOfThing = getSecondaryInput();}
+				    nameOfThing = getSecondaryInput();
+				    if (nameOfThing.equals(""))
+						continue;}
 				Person.player.AddCombinedItem(nameOfThing);}
+			
+			else if (todo.equalsIgnoreCase("split")){//move an item from inventory to the box in the light booth
+				if (!Person.player.inventoryEnabled){
+					System.out.println("\nYou don't have an inventory to be able to have anything to split.");
+					continue;}
+				if (nameOfThing.equals("")){ //if you haven't specified anything to combine
+					System.out.println("\nPlease specify a combined item to split.");
+				    Person.player.displayCombinedItems(); //swtich this out with something that only shows combined items
+				    nameOfThing = getSecondaryInput();
+				    if (nameOfThing.equals(""))
+						continue;}
+				CombinedItem.splitItem(nameOfThing);}
+			
+			else if (todo.equalsIgnoreCase("eat")){//to send an item into the depth of the Cove in hopes of getting the wrench
+				if (!Person.player.inventoryEnabled){
+						System.out.println("\nYou can't eat anything from an inventory you don't have.");
+						continue;}
+				if (nameOfThing.equals("")){ //if you haven't specified an item
+					System.out.print("\nPlease specify an item to eat.\n");
+					Person.player.displayPersonalInventory();//prints out list of the items in your inventory you can d
+					nameOfThing = getSecondaryInput();
+					if (nameOfThing.equals(""))
+						continue;}
+				Item.determineEatFood(nameOfThing);//if you have specified an item, it drops to here.
+				}//closes deploy function
+			
+			else if (todo.equalsIgnoreCase("get")){
+				if( nameOfThing.equalsIgnoreCase("rekt")){
+					if (Person.player.inventory.contains(Item.bottle)){
+						displayQuit(14);
+						break;}
+				} System.out.println("\nget... what??");}
+
+			else if (todo.equalsIgnoreCase("drive")){//allows you to drive somewhere
+				if (!Person.player.inventoryEnabled){
+					System.out.println("\nYou don't have an inventory to be able to have anything to drive anywhere with.");
+					continue;}
+				Person.player.driveThere();}
+			
 			else //this is the else for the whole loop.
 				System.out.println("\nYou have entered an invalid command.");//because if you did, you wouldn't be here.
 		}// this one closes out the loop
@@ -248,11 +312,12 @@ public class MainFile {
 		if (Person.player.inventoryEnabled){ //once you can pick up items, this stuff becomes relevent. 
 			System.out.println(" [the location for items or add an item to name to examine the item itself],");//this line is full.
 		    System.out.println("drop [followed by name to put down an item], transfer [followed by name, to secondary storage],");
+		    System.out.println("Eat [followed by an item name, player can eat it if it's a food item.]" );
 		    System.out.println("inventory [displays inventory], deploy [followed by name, send an item though the grating to attempt to get the wrench]");
 		    System.out.println("steal [followed by the item name. Note, this is a crime.], combine [followed by the items you wish to combine],");}
 		for (int i = 0; i < Item.listOfItems.size(); i++){
 			if (Item.listOfItems.get(i) instanceof CombinedItem){
-				System.out.println("separate [followed by the items you wish to seperate],");
+				System.out.println("split [followed by the items you wish to seperate],");
 				break;}
 		}			
 		System.out.println("\nGeneral Commands:");
@@ -261,6 +326,7 @@ public class MainFile {
 //			System.out.println("points [displays score]");
 	}
 	public static void displayQuit(int quitCode) {//displays the proper ending of the game
+		Person.player.renderLocation = false;
 		switch (quitCode){//there will be different quit messages for different endings of the game.
 		case 0: System.out.println ("\nYou decide this whole thing isn't worth it and go hide in your friend's "
 				+ "\nhouse and maybe you'll deal with this tomorrow. Or never. Never is an option."); break; //ending you hit quit.
@@ -274,8 +340,9 @@ public class MainFile {
 				+ "to tell anyone for a while, at \nwhich point it'll just be a funny story. You're just grateful "
 				+ "it's over and you can get back \nto procrastinating that mountain of schoolwork that awaits you."); break;
 				      //the ending where you get the wrench.
+		/**this one isn't being used*/
 		case 3: System.out.println("\nAlly's wrench is certainly a good enough replacement for the one you dropped. "
-				+ "You slip back \ninto the shop and put the wrench where it would belong. No one will ever know..."); break; //might take this out...
+				+ "You slip back \ninto the shop and put the wrench where it would belong. No one will ever know..."); break; 
 		case 4: System.out.println("\nCheeseman you lose. Kurt Colbain is disappointed."); break; //this is a random ending used to
 				      //test if switch cases had to be sequential and left because it's funny.
 		case 5: System.out.println("\nYou put the other wrench back and go on with your life. You retrieved "
@@ -283,6 +350,7 @@ public class MainFile {
 		case 6: System.out.println("You take the wrench you bought with your hard earned...er... found... "
 				+ "cash and put it back \nwith the rest of the tools. No one will know what happened, but you "
 				+ "could have used that \nmoney for other things..."); break; //ending where you decide to buy another wrench
+		/**this one's not getting used either*/
 		case 7: System.out.println("[ending where you are dramatic and leave theatre.... for like a week.]"); break; //ending where you admit your guilt.
 		case 8: System.out.println("\nYeah... swimming around in the Hudson is definitely a better idea than "
 				+ "dealing with this \nwrench situation. Time to change your mailing adress to the bottom of "
@@ -291,36 +359,54 @@ public class MainFile {
 		case 9: System.out.println("Surprise! You get mauled by a goose. You definitely lose."); break; 
 		            //obviously, this is what happens if you get mauled by a goose on the green.
 		case 10: System.out.println("You get caught 0.2 seconds after leaving the store. You now have far bigger problems than "
-				+ "your dropped wrench. Great job."); break;
+				+ "your dropped wrench. Great job."); break;//this is what happens if you try to steal an item.
 		case 11: System.out.println("\nOh no. The avocados ARE sentient. And angry. And they smite you instantly for dumping "
-				+ "them into the \ndepths of the Cove. Maybe you don't want to do that again."); //ending where you dump the avocados. 
-					
+				+ "them into the \ndepths of the Cove. Maybe you don't want to do that again."); break;//ending where you dump the avocados.
+		case 12: System.out.println("\nYou walk over to the wrench and grab it. You climb back up the ladder and back onto the walkway and "
+				+ "take \nboth the wrench and the ladder and return them and finally go about your life, grateful that the ceiling didn't "
+				+ "collapse \nwhile you were down there."); break; //ending from you physically going into the depths of the cove  
+		case 13: System.out.println("\nThe ceiling of theatre that you're standing on top of collaspes under your weight and you fall though. "
+				+ "\nAlthough you fall 17 feet, you are physically unhurt. However, you're completely panicking and leave \nas fast as your legs "
+				+ "can carry you. You're never going back there until after that hole's been fixed, \nand even then... This makes that wrench "
+				+ "seem absolutely trivial and you cower on the couch, still \nprocessing the shock of what you've done. Your horoscope was right- "
+				+ "today was going to be a bad, bad day."); break; //if you do fall through the ceiling.
+		case 14: System.out.println("\nYou chug the bottle of vodka. But before you can get back to trying to get that wrench, you feel it "
+				+ "\nkicking in. Completely drunk, you stagger outside and away from the townhouse and fall flat on your \nface on the Hancock "
+				+ "hill, dead asleep. You're going to be in for a hell of a time when you wake up."); break;
+		case 15: System.out.println("\nYou attempt to deploy the car, which you're not even sure how you managed to get it this far. However, since it "
+				+ "weighs 2700 pounds, it crashes through the ceiling into the theatre and then through the theatre floor into the dining hall below. "
+				+ "Much screaming and fleeing ensues, including you. Oh man. Put THAT on the top of the list of terrible life choices.");
 		} //closes the switch statement
 	}//closes the displayQuit method
     public static void displayCredits() {
     	System.out.println("-------------------------------------------------\n");
     	System.out.println("Thank you for playing Cove Wrench Drop: The Game.\n");
-    	System.out.println("Copyright Julia Franco, March 2017.");
+    	System.out.println("Copyright Julia Franco, April 2017.");
 	}//closes display credits method.
-    public static void promptForRestart(){
+    public static void promptForRestart(){ //asks the player if they want to restart the game.
     	System.out.println("-------------------------------------------------");
 		System.out.print("Restart? (y/n) ");
 		String restart = getSecondaryInput();
-		if (restart.equals("y")){//reset everything
-			//need to wipe all the items from locations.
-			Location.wipeLocations();
-			for (int i = 0; i < Location.places.length; i++)
-				Location.places[i].isVisited = false;//resets it so you haven't been anywhere.
-			//need to reset the attributes of the player.
-			Person.player.locationIndex = 0;
-			Person.player.inventory.clear();
+		if (restart.substring(0, 1).equalsIgnoreCase("y")){//reset everything
+			resetGame();
 			System.out.println("-------------------------------------------------");
 			main(null); //calls main function to run game again.
 		}
-		else if (restart.equals("n"))
+		else if (restart.substring(0, 1).equalsIgnoreCase("n"))
 			displayCredits();
 		else
 			promptForRestart();
+    }
+    public static void resetGame(){ //resets all of the attributes in the game that don't reset themselves*/
+    	//need to wipe all the items from locations.
+		Location.wipeLocations();
+		for (int i = 0; i < Location.places.length; i++)
+			Location.places[i].isVisited = false;//resets it so you haven't been anywhere.
+		for (int j = ( Item.listOfItems.size() -1); j != 0; j--) //wipes the combined items.
+			if (Item.listOfItems.get(j) instanceof CombinedItem)
+				Item.listOfItems.remove(Item.listOfItems.get(j));
+		//need to reset the attributes of the player.
+		Person.player.playerReset();
     }
     public static String[] splitInput(String StringToSplit, String splitKey){
     	String[] splits = StringToSplit.split(splitKey);

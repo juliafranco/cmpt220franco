@@ -33,16 +33,18 @@ public class Container {
 	static Container aisle15B  = new Container ("Aisle 15B", "The tool aisle in Home Depot. It holds lots of tools for the eager craftsman to"
 			+ " buy", -1);
 	static Container bb = new Container ("The Bubble Bowl", "The Buh-buh-buh... the buh-buh-buh... the Buh-buh-buh!", -1);
-
+	static Container SRCloset = new Container ("The Stage Right Closet" , "The closet on the stage right side of the stage. So many useful things "
+			+ "lurking within.", 1);
+	static Container autoAisle = new Container ("The Automotive Aisle" , "Full of all your automotive needs" , -1);
 	
 	/**Array to hold container objects*/
 	static Container[] listOfContainers = {couch1, couch2, couch3, couch4, SpecialtyContainer.depths, closetBathroom, secondaryInv, K1Couch, fridge,
-			aisle15B, bb};
+			aisle15B, bb, SRCloset, autoAisle};
 	
 	/**method to determine if the containers exists*/
 	static Container determineContainerValid(String nameToCheck){
 		for (int i = 0; i < listOfContainers.length; i++ )
-			if (nameToCheck.equals(listOfContainers[i].contName))
+			if (nameToCheck.equalsIgnoreCase(listOfContainers[i].contName))
 				if ( !(listOfContainers[i] instanceof SpecialtyContainer))//these containers are "hidden" so you can't see what's in them.
 					return listOfContainers[i];
 		 //if you get through the loop and don't find the container.
@@ -92,12 +94,17 @@ public class Container {
 	SpecialtyContainer.depths.addItemToContainer(Item.otherWrench);
 	SpecialtyContainer.depths.addItemToContainer(Item.wrench);
 	SpecialtyContainer.depths.addItemToContainer(Item.keys);
+	SpecialtyContainer.depths.addItemToContainer(Item.change);
     Container.couch1.addItemToContainer(Item.fiveBucks);
+    Container.couch2.addItemToContainer(Item.gum);
+    Container.couch2.addItemToContainer(Item.moreChange);
     Container.couch4.addItemToContainer(Item.repellent);
     Container.closetBathroom.addItemToContainer(Item.gafftape);
     Container.closetBathroom.addItemToContainer(Item.workLight);
     Container.aisle15B.addItemToContainer(Item.purchasedWrench);
     Container.fridge.addItemToContainer(Item.eggs);
+    Container.SRCloset.addItemToContainer(Item.extCord);
+    Container.autoAisle.addItemToContainer(Item.bunny);
    
     /**things that are there for test purposes.*/
 //    Container.secondaryInv.addItemToContainer(Item.bottle);

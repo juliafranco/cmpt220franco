@@ -10,18 +10,20 @@ public class CombinedItem extends Item {
 	CombinedItem(Item item1, Item item2){
 		itemName = item1.combineKey + "-" + item2.combineKey;
 		combineKey = itemName; //for numbers, add them.
-		itemDescript = "A combination of " + item1.itemName + " and " + item2.itemName;
+		itemDescript = "A combination of " + item1.itemName + " and " + item2.itemName +".";
+		inLocationDescript = "\nYou find a combination of " + item1.itemName + " and " + item2.itemName + 
+				", just hanging around."; 
 		length = item1.length + item2.length;
 		//for the true false atrributes, do an "or" so if one has it, the combination has it.
-		if (item1.type == 1 || item2.type == 1){//1 is the capture type
-			capture = true;}
+		if (item1.type == 1 || item2.type == 1) {//1 is the capture type
+			capture = true;
+			type =1;} //sets it as a capture type item for further combinations.
 		if (item1.type == 0  || item2.type == 0){//0 is the "uncombinable" type
 			System.out.print(" but it just makes something horrifying");//adds on when it prints out.
 		}
 		//save the original pieces in case it gets split. 
 		part1 = item1;
-		part2 = item2;
-		
+		part2 = item2;	
 	}
 
 	/**combines the two items into one.*/
@@ -50,7 +52,35 @@ public class CombinedItem extends Item {
 	static void determineRemoveItems(Item item1, Item item2) {
 		if (!(item1.uses > 0))//if the item has multiple uses, leave it.
 			Person.player.inventory.remove(item1);//takes the first item out
+		else //if it has uses
+			item1.removeItemUses();
 		if (!(item2.uses > 0))//if the item has multiple uses, leave it.
 			Person.player.inventory.remove(item2);//takes the second item out
+		else //if it has uses
+			item2.removeItemUses();
 		}
+	/**splits an item you've combined.*/
+	static void splitItem(String itemToDump){
+		try {
+		CombinedItem itemToSplit = (CombinedItem)Item.determineItemsExistance(itemToDump);//saves what the method returns as an item object
+		if (itemToSplit != null){
+			if (Person.player.inventory.contains(itemToSplit)){
+				if (itemToSplit.part1.uses == 0 && itemToSplit.part1.emptyCounterPart == null)//if the item has no uses and didn't start out that way.
+					//(if one component DID have uses, you just don't get it back)
+					Person.player.inventory.add(itemToSplit.part1);
+				if (itemToSplit.part2.uses == 0 && itemToSplit.part2.emptyCounterPart == null)//if the item has no uses and didn't start out that way
+					Person.player.inventory.add(itemToSplit.part2);
+				Person.player.inventory.remove(itemToSplit); //if you split it into pieces, removes the combination.
+				Item.listOfItems.remove(itemToSplit); //pull it out of the list of items that exist.
+				System.out.println("\nYou split the " + itemToSplit.itemName + " into its pieces: " +itemToSplit.part1.itemName + " and " 
+				+ itemToSplit.part2.itemName);
+			} else {
+				System.out.println("You can't split an item you don't have.");
+				}
+			}
+		
+	} catch (java.lang.ClassCastException ex){
+		System.out.println("That item is not a combined item, therefore you can't split it.");
+	}
+	}	
 }//end of class

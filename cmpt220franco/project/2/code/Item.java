@@ -8,37 +8,52 @@ public class Item {
 	String combineKey; //used for combining things so the name actually makes sense.
 	String itemDescript; //description of the item itself. 
 	String inLocationDescript; //when you examine the location/container for items, this is what it says [need this??]
+	int type; 
+	//if it's gonna grab it or provide the length (0 is nothing, 1 is if it grabs it, 2 if it provides length, 3 if it's food, 4 doesn't go in inventory.)
+	/**attribute that don't need to be set for all items.*/
 	double montaryValue;//how much the item costs or how much value it has.
 	int uses; //this also doubles as the quantity.
 	EmptyItem emptyCounterPart; //what it gets swapped out with when the uses hit zero.
-	int type; //if it's gonna grab it or provide the length (0 is nothing, 1 is if it grabs it.)
-	double length; //how long the item is. 
+	
+	int length; //how long the item is. 
 	
 	/**no arg constructor for inheritance purposes*/
 	Item(){}
 	/**Constructor for Item Object*/
-	Item(String name, String shortName, String description, String examineMessage){
+	Item(String name, String shortName, String description, String examineMessage, int whatKind){
 		itemName = name;
 		combineKey = shortName;
 		itemDescript = description;
 		inLocationDescript = examineMessage;
+		type = whatKind;
 	}
 	/**Constructor for Item Object that has a price*/
-	Item( String name, String shortName, String description, String examineMessage, double faceValue){
+	Item(String name, String shortName, String description, String examineMessage, int whatKind, double faceValue){
 		itemName = name;
 		combineKey = shortName;
 		itemDescript = description;
 		inLocationDescript = examineMessage;
+		type = whatKind;
 		montaryValue = faceValue;
 	}
 	/**Constructor for Item Object that has certain amounts of use*/
-	Item( String name, String shortName, String description, String examineMessage, int useAmount, EmptyItem whenEmpty){
+	Item(String name, String shortName, String description, String examineMessage, int whatKind, int useAmount, EmptyItem whenEmpty){
 		itemName = name;
 		combineKey = shortName;
 		itemDescript = description;
 		inLocationDescript = examineMessage;
+		type = whatKind;
 		uses = useAmount;
 		emptyCounterPart = whenEmpty;
+	}
+	/**Constructor for Item Object that has a length*/
+	Item(String name, String shortName, String description, String examineMessage, int whatKind, int howLong){
+		itemName = name;
+		combineKey = shortName;
+		itemDescript = description;
+		inLocationDescript = examineMessage;
+		type = whatKind;
+		length = howLong;
 	}
 	
 	/**Method to remove uses from item*/ //this is going to hang out here until I'm ready for it.
@@ -48,11 +63,12 @@ public class Item {
 	/**switches the item with its empty version*/
 	void SwitchWithEmpty(){
 		if (this.uses <= 0){
-			for (int i = 0; i < Person.player.inventory.size(); i++){
+			for (int i = 0; i < Person.player.inventory.size(); i++){//so it has the index of the item to swap out.
 				if (Person.player.inventory.get(i).equals(this)){
 					System.out.println("\n" + this.itemName + " is now empty.");
 					Person.player.inventory.remove(this);
-					Person.player.inventory.add(i, this.emptyCounterPart);
+					if (this.emptyCounterPart != null)//if it has an empty counterpart.
+						Person.player.inventory.add(i, this.emptyCounterPart);//so it can add the now empty item into that index
 					}
 			}
 			Container.bb.addItemToContainer(this);//I don't know why I think this is a good idea, but it's funny.
@@ -66,7 +82,7 @@ public class Item {
 			System.out.print("\n" + itemfound.itemDescript);
 			//prints the length, if it has one of note.
 			if (itemfound.length != 0)
-				System.out.print(" Lenght: " + itemfound.length);
+				System.out.print(" Lenght: " + itemfound.length + "ft.");
 			System.out.println("");
 			return;}
 		//looks to see if name belongs to a container. 
@@ -78,7 +94,9 @@ public class Item {
 	/**method to determine if the item you're trying to manipulate exists.*/
 	static Item determineItemsExistance(String itemToCheck){
 		for (int i = 0; i < listOfItems.size(); i++ ){
-			if (itemToCheck.equals(listOfItems.get(i).itemName)){//loops through the items in the list of items
+			if (itemToCheck.equalsIgnoreCase(listOfItems.get(i).itemName) ||itemToCheck.equalsIgnoreCase(listOfItems.get(i).combineKey)){
+				//loops through the items in the list of items, looks to see if the string matches the name or combine key (a one or two word version
+				//of the name.
 				return listOfItems.get(i);//returns the item it finds
 			}
 		} //if you get through the loop and don't find the container.
@@ -88,7 +106,7 @@ public class Item {
 	Object[] determineSamePlace(){
 		//if there's nothing there, the item can't be there. 
 		Location placeToCheck = Location.places[Person.player.locationIndex];
-		if (placeToCheck.items.isEmpty() &&  placeToCheck.receptacle.isEmpty()){
+		if (placeToCheck.isItEmpty()){
 			System.out.print("");}
 			//determines if an item is in the location directly.
 		else if  (placeToCheck.items.contains(this)){
@@ -193,65 +211,128 @@ public class Item {
     	else
     		System.out.println ("\nTrying picking up a map before you try to look at it.");
         }
-
 	/**looks to see if certain conditions with the item being deployed are met.*/
 	boolean checkConditions (){
-//		return true;
 		//looks to see if everything's met. Otherwise, it'll return false.
 			if (this.length >= 15 && (((CombinedItem)this).capture == true || this.type == 1)){
 				return true;				
 			} else {
-				System.out.println("Try making sure your item is long enough to reach into the depths and/or "
+				System.out.println("\nTry making sure your item is long enough to reach into the depths and/or "
 						+ "can grasp the wrench.");
+				System.out.print("\nThis item currently has a length of " + this.length + "ft and ");
+				if (this.type == 1 || this instanceof CombinedItem)
+					System.out.println("can grasp the wrench");
+				else
+					System.out.println("cannot grasp the wrench");
 				return false;}
 	}
+	/**"eat" an item*/
+	static void determineEatFood(String itemToEat){
+		Item itemToFind = determineItemsExistance(itemToEat);//saves what the method returns as an item object
+		if (itemToFind != null){
+			if (Person.player.inventory.contains(itemToFind)){
+				itemToFind.eatFood();
+			} else {
+				System.out.println("You can't eat something you don't have");
+			}
+		}
+	}
+	void eatFood(){
+		if (this.type == 3){ //this is the food type
+			if (this.uses > 0){
+				this.removeItemUses();
+				System.out.println("\nYou eat a piece from " + this.itemName);}
+			else{
+				Person.player.inventory.remove(this);
+				System.out.println("\nYou eat " + this.itemName);}
+			}
+		else {
+			System.out.println("\nYou really don't want to eat that...");}
+	}
+	
 	/**Items*/
 	static Item otherWrench = new Item ("The Other Wrench", "Other Wrench", "It's another wrench. Who knew there was another wrench in the depths of "
-			+ "the Cove.", "\nYou find the other wrench. Nice." );
-	static Item grabber = new Item ("Grabber" , "Grabber", "Used to reach things out of your grasp. Squeeze the end to close it.", 
-			"\nYou see the grabber leaning against the railing. This looks useful.");
-	static Item repellent = new Item ("Goose Repellent" , "Goose Repellent", "A pendant on a chain, stamped 'Goose Repellent'. It smells weird "
+			+ "the Cove.", "\nYou find the other wrench. Nice." ,0 );
+	static Item grabber = new Item ("The Grabber" , "Grabber", "Used to reach things out of your grasp. Squeeze the end to close it.", 
+			"\nYou see the grabber leaning against the railing. This looks useful.", 1 ,1);//has a capture attribute, also has a length of a foot
+	static Item repellent = new Item ("Some Goose Repellent" , "Goose Repellent", "A pendant on a chain, stamped 'Goose Repellent'. It smells weird "
 			+ "and might not work,\n but hopefully it'll keep the geese away." , "You see a pendant on a chain, stamped 'goose repellent'. "
-			+ "This looks useful.");
+			+ "This looks useful." ,0);
 	static Item parcans = new Item ("A BUNCH OF PARCANS", "Parcan", "A bunch of can-shaped stagelights (hence the name), as a collective unit." 
-			, "\nYou see a bunch of parcans sitting on the floor next to the door to the roof. You can take them, but do you really want ALL of them?");
-	static Item bookbag = new Item ("Bookbag" , "Bookbag", "It holds things. Very useful. [this is your inventory]" , "\nYou see a book bag sitting "
-			+ "under the the lights to your left. Someone must have left it up here. It \nwould probably be useful for carrying things around.");
+			, "\nYou see a bunch of parcans sitting on the floor next to the door to the roof. You can take them, but do you really want ALL of them?"
+			, 0);
+	static Item bookbag = new Item ("A Bookbag" , "Bookbag", "It holds things. Very useful. [this is your inventory]" , "\nYou see a book bag sitting "
+			+ "under the the lights to your left. Someone must have left it up here. It \nwould probably be useful for carrying things around.", 4);
 	        //this isn't supposed to show up in inventory because it IS your inventory.	
-	static Item gafftape = new Item ("The Gaff Tape", "Gaff Tape", "A clothlike tape they use in theatre for everything. Infinite uses, limited quantity." 
-			, "\nYou see a roll of tape sitting on the shelf. Probably going to be useful.", 7, EmptyItem.emptyRollOfTape);
+	static Item gafftape = new Item ("The Gaff Tape", "Gaff Tape", "A clothlike tape they use in theatre for everything. Infinite uses, limited "
+			+ "quantity." , "\nYou see a roll of tape sitting on the shelf. Probably going to be useful.", 0, 7, EmptyItem.emptyRollOfTape);
 	static Item drill = new Item ("A drill", "Drill", "It is a drill. Also known as a powertool. Useful for combining items. It's not like someone "
 			+ "\ndropped a wrench into the depths of the Cove and needs to cobble together something to get it back..." , "\nJust a powertool, "
-			+ "sitting on a table.");
+			+ "sitting on a table.", 0);
     static Item plunger = new Item ("A Plunger", "Plunger", "What a nice plunger you have. What suction. The better to plunge toilets with... or "
-    		+ "hold things?", "\nYou see a plunger behind the toilet. Good for plunging toilets, yes, but other things? Quite possibly.");
+    		+ "hold things?", "\nYou see a plunger behind the toilet. Good for plunging toilets, yes, but other things? Quite possibly.", 1 , 1);
     static Item map = new Item ("A map", "Map", "A laminated map of the campus. useful, yes. Detailed, not really. ['show map' will display the map.]"
-        , "\nIn a bin, there are maps. It's probably a smart idea to snag one."); 
+        , "\nIn a bin, there are maps. It's probably a smart idea to snag one.", 0); 
     static Item bottle = new Item ("Jillian's Smirnoff", "Vodka", "TIME TO GET REKT", "\nA bottle. Of vodka. Left on a desk. In front of open curtains."
-    		+ " Where the RA can see it. For two days. My roommate is dumb."); //FIXME: Probably ought to take this out,,,
-    static Item wrench = new Item ("The Wrench", "Wrench",  "The whole reason you're in this mess to be begin with." , "Your contraption has latched "
-    		+ "onto the wrench and it's coming back to daylight now.");
+    		+ " Where the RA can see it. For two days. My roommate is dumb.", 0); //FIXME: Probably ought to take this out,,,
+    static Item wrench = new Item ("The Wrench", "Wrench",  "The whole reason you're in this mess to be begin with." , "\nYour contraption has latched "
+    		+ "onto the wrench and it's coming back to daylight now.", 0);
     static Item keys = new Item ("Some Car Keys", "Car Keys", "A set of car keys to a Honda Civic... with a sticker with the VIN number of the car it "
     		+ "belongs to \non it. No one ever said that was smart.", "\nYou pull a set of car keys out of the Cove. You feel bad for the person who "
-    		+ "dropped their keys \nin the Cove...");
+    		+ "dropped their keys \nin the Cove...", 0);
     static Item avocados = new Item ("A Bin of Avocados", "Avocado Bin" , "A bin of avocados. Full of avocados. What are you going to do with them? "
     		+ "What if they're sentient?", "\nAvocados? You didn't know Job Lot sells avocados. No... they definitely don't. Since they don't "
-    		+ "\nbelong here, who's going to miss them if you swipe them. But god, they're just sitting there \nlike the mastermind of some horrid trap.");
-    static Item fiveBucks = new Item ("A crumpled 5 dollar bill", "Five Dollars", "It's a crumpled five dollar bill. It's crumpled, but it's still worth "
-    		+ "five bucks.", "Score! In rummaging through the couch, you've found 5 bucks. This is a great plan.", 5.);
+    		+ "\nbelong here, who's going to miss them if you swipe them. But god, they're just sitting there \nlike the mastermind of some horrid trap.",
+    		0);
+    static Item fiveBucks = new Item ("A crumpled 5 dollar bill", "5 Dollars", "It's a crumpled five dollar bill. It's crumpled, but it's still "
+    		+ "worth five bucks.", "Score! In rummaging through the couch, you've found 5 bucks. This is a great plan.", 4, 5.);
     static Item purchasedWrench = new Item ("A wrench", "Wrench" , "Just a normal wrench with a pricetag reading $17.99, plus tax", "You see a wrench "
-    		+ "on the pegboard in the aisle with the rest of the hand tools. The pricetage reads $17.99, plus tax", -19.43 );
-    static Item Unibrow = new Item ("The Unibrow" ," Unibrow", "It's Squilliam Fancyson's Unibrow.", "It's Moves on its own. You shouldn't be able "
-    		+ "to achieve this item.");
+    		+ "on the pegboard in the aisle with the rest of the hand tools. The pricetag reads $17.99, plus tax", 0, -19.43 );
+    static Item Unibrow = new Item ("The Unibrow" ,"Unibrow", "It's Squilliam Fancyson's Unibrow.", "It's Moves on its own. You shouldn't be able "
+    		+ "to achieve this item.", 0 );
     static Item noodles = new Item ("Some peanut noodles" , "Peanut Noodles", "Are they noodles or are they heaven? God, they look delicious." 
-    		, "It's a container of peanut noodles that make your mouth water just looking at them." , -3.69);
-    static Item eggs = new Item ("A carton of eggs" ," Eggs" , "A carton. Of eggs. From a chicken. Really nothing fancy.", "You see a carton of eggs "
-    		+ "in the fridge. Anyone want an omelette?", 12, EmptyItem.eggCarton);
-    static Item workLight = new Item ("A worklight", "Worklight", "And the power cord said: let there be light. See into the blackness... the depths?",
-    		"You see a worklight, minding its own business. That looks useful...");
-    
-	/**Array to hold Item objects*/
+    		, "\nIt's a container of peanut noodles that make your mouth water just looking at them." , 3, -3.69);
+    static Item eggs = new Item ("A carton of eggs" ,"Eggs" , "A carton. Of eggs. From a chicken. Really nothing fancy.", "You see a carton of eggs "
+    		+ "in the fridge. Anyone want an omelette?", 0, 12, EmptyItem.eggCarton);
+    static Item workLight = new Item ("A worklight", "Worklight", "And the battery pack said: let there be light. See into the blackness... the depths?",
+    		"You see a worklight, minding its own business. That looks useful...", 0);
+    static Item extCord = new Item ("An extension cord" , "Extension Cord" , "A long cord that plugs into an outlet at one end, anything you want at "
+    		+ "the other.", "You find an extension cord, sitting around, minding its own business", 2, 15);//has a length of 15
+    static Item screws = new Item ("A few 1 5/8 inch screws" , "Screw" , "Screws. That are 1 5/8 inches long. And there are four of them", "\nYou find four "
+    		+ "screws next to the saw. Maybe you can use them to put things together" , 0, 4, null);
+    static Item gum = new Item ("A package of gum" , "Gum" , "A package of gum. I think it's mint??" , "You find a package of gum. Might as well chew "
+    		+ "it...." , 3, 12, EmptyItem.gumPack);
+	static Item tupperware = new Item ("A TupperWare Container" , "Tupperware" , "A tupperware container. Perfect for holding food." , "You find a "
+			+ "tupperware container sitting on the counter. Not sure how this is gonna help, but you never know." , 0);
+    static Item ladder = new Item ("A Ladder" , "Ladder" ,"A ten foot ladder. And bright orange." , "\nYou see a ladder leaned up against the wall on "
+    		+ "stage left. It's orange and 10 feet tall. You can \ngrab it easily if you can carry a 10 foot ladder." , 2, 10);
+	static Item change = new Item ("Some change", "Change" , "An assortment of dimes, nickles, pennies, and quarters. And is that a euro??", "\nYou pull "
+			+ "up a handful of change from the depths of the Cove. Well, it's something.", 4, ((double)MainFile.getRandomNumber(100))/100);
+	static Item moreChange = new Item ("Some change", "Change" , "An assortment of dimes, nickles, pennies, and quarters. And is that a euro??", 
+			"\nYou feel a bunch of coins in the couch. Well, it's something.", 4, ((double)MainFile.getRandomNumber(100))/100);
+    static Item rope = new Item ("A rope" , "Rope" , "22 feet of braided rope, acquired from someone, here now. Probably pretty strong." , "\nYou see a "
+    		+ "rope draped over one of the lamp posts. It's very long and very ropey. What does 'ropey' even mean..." , 2, 22);
+	static Item magnet = new Item ("A Magnet" , "Magnet" , "An extremely powerful magnet. Strong enough that it can attract anything metal. With great "
+			+ "power comes great \nresponsibly. Don't do something dumb." , "\nSitting next to a pile of I-beams you find a magnet with a label reading '"
+			+ "This is a huge ass magnet. Can attract \nmetal from up to 30 feet away. Use with caution'", 1);
+	static Item pipe = new Item ("A PVC Pipe" , "Pipe" , "It is a pipe. Made of PVC. 3/4 of an inch wide, 7 feet long. What else are you expecting?" ,
+			"\nIn the back corner amoungst building materials, you find a PVC pipe. You're not sure how it's \ngoing to fit in your bag, but it's probably "
+			+ "going to be useful in getting back that damn wrench" , 2 , 7);
+	static Item twobyfour = new Item ("A 2X4" , "2X4" , "A 2x4 is a piece of wood that's two inches thick by four inches wide and how long it ends up "
+			+ "being, \nexcept it's smaller because of the way wood is made.","\nYou find a 2X4 in the back corner with a bunch of other building materials. "
+			+ "A long piece of wood \nis definitely useful." , 2, 8);
+	static Item bunny = new Item ("A big pink stuffed bunny" , "Bunny" , "A large pink stuffed bunny. Half your height, but adorable." , "Sitting on the "
+			+ "bottom shelf of the automotive aisle, you find a misplaced stuffed pink bunny. It cost 4.99. Job Lot is weird." , 0, -5.40);
+	static Item twentyDollars = new Item ("A soggy 20 dollar bill" , "20 Dollars" , "An extremely soggy 20 dollars. You hope you don't rip it to "
+			+ "shreds." , "In the deep, dark, toxic depths of the Hudson River, you find a 20 dollar bill." , 4, 20.);
+	static Item car = new Item ("A Honda Civic" , "Car" , "A blue, 2009, Honda Civic. It's in good condition despite the fact it's been sitting "
+			+ "for an untold amount of time. If you had the keys. you could probably use it to go somewhere." , "You see a blue Honda Civic sitting "
+			+ "parked in front of Rite Aid. It looks like it hasn't gone anywhere for a while. Maybe the owner lost the keys..." , 0);
+	
+	/**Array to hold Item objects*///it checks this list to see if an item exists...
     static ArrayList<Item> listOfItems = new ArrayList<>(Arrays.asList(otherWrench, grabber, repellent, parcans, bookbag, gafftape, 
     		EmptyItem.emptyRollOfTape, drill, plunger, map, bottle, wrench, keys, avocados, fiveBucks, purchasedWrench, Unibrow, 
-    		noodles, eggs, EmptyItem.eggCarton, workLight));//this is an arraylist so I can add the combined items to it.	
+    		noodles, eggs, EmptyItem.eggCarton, workLight, extCord, screws, gum, EmptyItem.gumPack, tupperware, ladder, change, moreChange, rope,
+    		magnet, pipe, twobyfour, bunny, twentyDollars, car));
+    //this is an arraylist so I can add the combined items to it.	
 }//end of item class.
