@@ -30,15 +30,14 @@ public class SpecialtyContainer extends Container {
 					if ((alternateDeploy(itemToFind))){//if you've attempted to deploy an item that might not be meant to be deployed.
 						return;
 						} else { 
-							if (itemToFind.checkConditions()){//insert checking for conditions here, like lenght >= 15, something grabby on the end. 
-							//but I haven't done that yet...
+							if (itemToFind.checkConditions()){//checks to see if the item meets conditions. There's a print here.
 								depths.GetFoundItem();//if everything meets the conditions, go see what you can grab.
 							}
 						}
-					} else { 
-						System.out.println("\nYou can't deploy an item if you're nowhere worth deploying it.");}
-				}else{
-					System.out.println("\nYou can't deploy an item you don't have.");}
+					} else  
+						System.out.println("\nYou can't deploy an item if you're nowhere worth deploying it.");
+				}else
+					System.out.println("\nYou can't deploy an item you don't have.");
 			}
 	}
 	/**looks at some conditions to determine the probablity of getting the wrench.*/
@@ -81,8 +80,9 @@ public class SpecialtyContainer extends Container {
 	/**if you've deployed some items that alter game play.*/
 	boolean alternateDeploy(Item itemDeployed){//returns true if it does anything so it does nothing else.
 		if (itemDeployed.equals(Item.eggs)){
-			System.out.println("\nYou drop an egg into "+ this.contName + ". Great. Now whatever's down "
-					+ "there is covered in egg. \nGood luck getting anything down there now....");
+			System.out.println((this.egg) ? "\nYou drop an egg into "+ this.contName + ". Great. Now whatever's down "
+					+ "there is covered in egg. \nGood luck getting anything down there now...." : "You drop another egg "
+					+ "into the depth of the Cove. Not sure how much good that's going to do...");
 			if (!this.egg) //if you haven't dropped one down there before...
 				this.ChangeEgg();//note that you
 			Item.eggs.removeItemUses();//removes uses from the eggs
@@ -97,9 +97,9 @@ public class SpecialtyContainer extends Container {
 			System.out.println("\nYou drop the ladder into " + this.contName +". The top is about 6 feet below"
 					+ " where you're standing. \nDo you lower yourself carefully over the edge and go down there yourself? (y/n)");
 			String input = MainFile.getSecondaryInput();
-			if (input.equalsIgnoreCase("y")){
+			if (input.substring(0, 1).equalsIgnoreCase("y")){
 				this.navigate();}
-			else if (input.equalsIgnoreCase("n")){
+			else {
 				System.out.println("\nYou decide against it, and go about your attempts to get that wrench back from the walkway.");}
 			return true;
 		}
@@ -120,7 +120,7 @@ public class SpecialtyContainer extends Container {
 					MainFile.displayQuit(13);
 					return;}
 				//since you're taking the wrench anyways, only need the "no" answer hard coded
-				if (input.equalsIgnoreCase("n")){
+				if (input.substring(0, 1).equalsIgnoreCase("n")){
 					System.out.println("\nYou realize that you're dumb for not taking the wrench, and therefore take "
 					+ "it anyway.");}
 				MainFile.displayQuit(12);//breaks out of the game

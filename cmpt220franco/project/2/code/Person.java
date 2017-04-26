@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 /**Person class holds all data related to people within the game including the player.*/
 public class Person {
-		int locationIndex; //the current location is referenced by its index in the locations list. This holds that index.
+		int locationIndex = 0; //the current location is referenced by its index in the locations list. This holds that index.
 		boolean renderLocation = true; //determines if you can fully render the location because THINGS HAPPEN
-//		String name; //disabled for now because you don't need it at the moment and it annoys me.
+		String name; //disabled for now because you don't need it at the moment and it annoys me.
 		ArrayList<Item> inventory = new ArrayList<>(); //holds a list of item objects in your inventory, can hold five items [can change if I want...].
 		final int MAX_INVENTORY = 5;
 		boolean inventoryEnabled = false; //determines if you can hold things. Starts out you can't.
@@ -15,11 +15,11 @@ public class Person {
 		//the player probably will inherent other things {inventory}, and the others will have a separate things.
 			//2 subclasses
 		Person (){//no args  constructor with the default location
-			locationIndex = 0; //the default location for a person.
 //			name = getName();
 		}	
 		Person(int intLocation){//Constructor to set opening location.
 			locationIndex = intLocation;
+			name = getName();
 		}
 		
 		static Person player = new Person (); //creates the object of the player
@@ -28,9 +28,9 @@ public class Person {
 		
 		/**Get player's name*/
 		String getName(){
-			System.out.println("Enter your name.");
+			System.out.println("\nEnter your name.");
 			String yourName = MainFile.getSecondaryInput();
-			System.out.println("-------------------------------------------------\n");
+//			System.out.println("-------------------------------------------------\n");
 			return yourName;}
 		/**used to move player around the map*/
 		void moveLocation (int direction){
@@ -146,9 +146,8 @@ public class Person {
 		}
 		/**prints the money you have*/
 		String displayMoney(){
-			 if (this.moneyHad != 0)
-				 return " You have $" + this.moneyHad;
-			 return "";}
+			 return ((this.moneyHad != 0) ? " You have $" + this.moneyHad : "");
+		}
 		/**determines if you can add an item to the inventory*/
 		void determineAddItem (String itemToAdd){
 			if (this.inventory.size() >= MAX_INVENTORY) //checks if it's full
@@ -157,16 +156,20 @@ public class Person {
 		}
 		/**adds an item to the inventory*/
 		void addItem(Item itemToAdd){
-			if (itemToAdd != Item.bookbag){//if it's not the bookbag which doesn't show up in your inventory
-				if (!this.CheckWrench(itemToAdd))//check to see if you're adding a wrench to your inventory.
-					return;//if you are, it's done everything in that method and just needs to break.
+			if (itemToAdd.type == 4){//these won't show up in your inventory
 				if (itemToAdd.montaryValue > 0){
 					this.moneyHad += itemToAdd.montaryValue;
 					System.out.println("\nYou shove the money in your pocket.");}
+				else if (itemToAdd.equals(Item.bookbag)){
+					System.out.println("\nYou pick up the book bag. You are now able to hold an inventory in it.");
+					this.enableInventory();}
+			} else {//if it's supposed to show up in your inventory
+				if (!this.CheckWrench(itemToAdd))//check to see if you're adding a wrench to your inventory.
+					return;//if you are, it's done everything in that method and just needs to break.
 				else {
 					this.inventory.add(itemToAdd);
 					System.out.println("\nYou add the item to your inventory");}
-				displayInventory();}
+			} displayInventory();
 		}
 		/**drops an item from inventory*/
 		void dropItem(String itemToCheck){
@@ -187,14 +190,13 @@ public class Person {
 				Object [] returnedArgs = itemToFind.determineSamePlace();
 				if ((boolean) returnedArgs[0]){
 					System.out.println("\nAre you you sure you want to steal " + itemToSteal + "? y/n" );
-					if (MainFile.getSecondaryInput().equalsIgnoreCase("y")){
-						if (itemToFind.montaryValue == 0){
-							System.out.println("You dummy. It's free. Just take it like a normal person.");} 
-						else {
-							MainFile.displayQuit(10);}
+					if (MainFile.getSecondaryInput().substring(0, 1).equalsIgnoreCase("y")){
+						if (itemToFind.montaryValue == 0)
+							System.out.println("You dummy. It's free. Just take it like a normal person."); 
+						else 
+							MainFile.displayQuit(10);
 					} else
-						System.out.println("\nYou put the item back where it came from go about your life, grateful you didn't make that dumb mistake.");
-				}
+						System.out.println("\nYou put the item back where it came from go about your life, grateful you didn't make that dumb mistake.");}
 			 }	 
 		}
 		boolean spendMoney(Item itemToBuy){
@@ -218,8 +220,7 @@ public class Person {
 				Item.listOfItems.add(itemToAdd);//adds the item to the list of items that exist
 				System.out.println(".\n");//this is for formatting purposes.
 				System.out.println("You have created a " +itemToAdd.itemName);
-				this.displayInventory();
-				}
+				this.displayInventory();}
 		}
 		/**if you've got some kind of wrench, it askes you if you want to just quit.*/
 		boolean CheckWrench(Item maybeWrench){
@@ -239,9 +240,9 @@ public class Person {
 				+ " poorer now. You bought the thing so you might as well just put it \nback and go on with your "
 				+ "life, but you can keep trying if you want. Keep trying y/n? ");
 					String input = MainFile.getSecondaryInput();
-					if (input.equalsIgnoreCase("y")){
+					if (input.substring(0, 1).equalsIgnoreCase("y")){
 						return true;}
-					else if (input.equalsIgnoreCase("n")){
+					else if (input.substring(0, 1).equalsIgnoreCase("n")){
 						MainFile.displayQuit(6);
 						return false;}
 				}
@@ -258,6 +259,7 @@ public class Person {
 			this.inventory.clear();
 			this.inventoryEnabled = false;
 			this.moneyHad = 0;
+			this.renderLocation = true;
 			//don't have to reset name.
 			for (int i = this.beenTo.getSize(); i != 0 ; i--){
 				//wipes the interger stack so there's nothing else in the back function.

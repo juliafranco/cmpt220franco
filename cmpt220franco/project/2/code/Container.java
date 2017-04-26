@@ -73,8 +73,7 @@ public class Container {
 					System.out.print("\nThe Contents of " + containerToFind.contName + ": ");
 					for (int i = 0; i < containerToFind.contents.size(); i++ )
 						System.out.print( containerToFind.contents.get(i).itemName + ", ");}
-			}
-		System.out.println("");
+			} System.out.println("");
 		}
 	/**method to add items to container*/ //Invoked with deposit?? can you put something back?? used at beginning of game to set things. 
 	void addItemToContainer (Item toAdd){

@@ -1,9 +1,7 @@
 package code;
 
 public class Notes {
-	/**TODO:
-		 *Write more items 
-		 *Finish location descriptions
+	/**TODO: Write more items 
 		 */
     /**FIXME: [to remove]: bypass command, maul command, bottle of Vodka */	
 	//Cove Wrench Drop: The Game.
@@ -53,7 +51,7 @@ public class Notes {
 					//the depths? Can you go down there??
 						//this might not be somewhere you can go, but somewhere that holds the items down there.
 						//this is a container which contains some items. You "reach" into the container but it's a special class?
-		    //g //Campus security.(20)
+/**Done*/   //g //Campus security.(20)
 /**Done*/	//h	//the light booth (1)
 /**Done*/	//i	//the roof (9)
 /**Done*/	//j	//the couches (6)
@@ -63,11 +61,11 @@ public class Notes {
 /**Done*/	//l	//the green (8)
 				/**K1*/
 /**Done*/	    //m-q			//living room(15), kitchen(16), upstairs landing(17), bathrooom(19),bedroom B(18)
-/**Done*/  //r	//the construction site(21)
-		    //s	//Home depot (24)
-		    //t	//rite aid (22)
+/**Done*/   //r	//the construction site(21)
+/**Done*/   //s	//Home depot (24)
+/**Done*/   //t	//rite aid (22)
 /**Done*/   //u	//job lot (23)
-		    //v	//Lola's (25)
+/**Done*/   //v	//Lola's (25)
 					//has a few items that you could buy and eat. (like a sandwich or two and peanut noodles.)
 					//you'd probably need the car to get there.
 /**Done*/	//w //Abandoned Staples which leads to a dimension of infinite wrenches. (5)
@@ -97,7 +95,7 @@ public class Notes {
 }
 /**V.  */ void Items(){
 			//start out with nothing, including money....
-			//different items will have different amounts of points. They're for the fun of it.
+			//different items will have different amounts of points. They're for the fun of it. <---maybe not because I don't want to.
 			//have a name, point value, some will have a number of uses or a quantity, depending on how I want to work it. 
 			//items you can buy will have a cost attached to them.
 			//need to store items in inventory
@@ -142,7 +140,7 @@ public class Notes {
 /**Done*///17	//a really powerful magnet
 /**Done*///18	//The Other Wrench
 /**Done*///19	//a plunger, found in the upstairs bathroom of K1
-		 //20	//a car??
+/**Done*///20	//a car??
 /**Done*///21	//would need to also find car keys before it's any use. 
        					//you retrieve the car keys from the cove.
 					//use a drive function, have a list of places and you "warp" to them.
@@ -158,7 +156,7 @@ public class Notes {
 							//"you pick up the item.name and put it in your bag. How the heck it fits is beyond you.
 /**Done*///25	//a map
 					//you totally have to find this- it's on the ground but only shows major locations, not everything. 
-	 	 //26	//either Ally's keys, Michael's keys, or his wallet.
+/**not happening*///26	//either Ally's keys, Michael's keys, or his wallet.
 					//if it's Ally's keys and you find Ally, and give them back, she gives you a wrench you can replace and you're home free??
 						//gives you a y/n option. 
 					//in one of the couches in the lounge.

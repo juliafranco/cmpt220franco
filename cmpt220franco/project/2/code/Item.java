@@ -191,8 +191,7 @@ public class Item {
 	}
 	/**prints out a map of the world... not an exact one though*/
 	static void displayMap(){
-    	if (Person.player.inventory.contains(map)){
-    		System.out.println (		
+		System.out.println ((Person.player.inventory.contains(map))? 		//if it has the map, print the map
              "                                           Office of Campus Security\n"
            + "                                                       ^\n"
            + "                                                       |\n"
@@ -205,11 +204,9 @@ public class Item {
            + "                                                       ^\n"
            + "                                                       |\n"
            + "                                                       v\n"
-           + "                                          Mid-Hudson Plaza [across Route 9]\n");
-    		System.out.println("That's useful, but you know it's just a simplification of reality. And probably missing a lot of stuff.");}
-    	
-    	else
-    		System.out.println ("\nTrying picking up a map before you try to look at it.");
+           + "                                          Mid-Hudson Plaza [across Route 9]\n" +
+    		"That's useful, but you know it's just a simplification of reality. And probably missing a lot of stuff." :
+    			"\nTrying picking up a map before you try to look at it."); //this is the else. 
         }
 	/**looks to see if certain conditions with the item being deployed are met.*/
 	boolean checkConditions (){
@@ -218,12 +215,8 @@ public class Item {
 				return true;				
 			} else {
 				System.out.println("\nTry making sure your item is long enough to reach into the depths and/or "
-						+ "can grasp the wrench.");
-				System.out.print("\nThis item currently has a length of " + this.length + "ft and ");
-				if (this.type == 1 || this instanceof CombinedItem)
-					System.out.println("can grasp the wrench");
-				else
-					System.out.println("cannot grasp the wrench");
+						+ "can grasp the wrench. \nThis item currently has a length of " + this.length + "ft and " + 
+						((this.type == 1) ? "can" : "cannot" ) +" grasp the wrench");
 				return false;}
 	}
 	/**"eat" an item*/
@@ -233,8 +226,7 @@ public class Item {
 			if (Person.player.inventory.contains(itemToFind)){
 				itemToFind.eatFood();
 			} else {
-				System.out.println("You can't eat something you don't have");
-			}
+				System.out.println("You can't eat something you don't have");}
 		}
 	}
 	void eatFood(){
@@ -247,7 +239,7 @@ public class Item {
 				System.out.println("\nYou eat " + this.itemName);}
 			}
 		else {
-			System.out.println("\nYou really don't want to eat that...");}
+			System.out.println("\nYou really don't want to eat " + this.itemName + "...");}
 	}
 	
 	/**Items*/
@@ -258,7 +250,7 @@ public class Item {
 	static Item repellent = new Item ("Some Goose Repellent" , "Goose Repellent", "A pendant on a chain, stamped 'Goose Repellent'. It smells weird "
 			+ "and might not work,\n but hopefully it'll keep the geese away." , "You see a pendant on a chain, stamped 'goose repellent'. "
 			+ "This looks useful." ,0);
-	static Item parcans = new Item ("A BUNCH OF PARCANS", "Parcan", "A bunch of can-shaped stagelights (hence the name), as a collective unit." 
+	static Item parcans = new Item ("A BUNCH OF PARCANS", "Parcans", "A bunch of can-shaped stagelights (hence the name), as a collective unit." 
 			, "\nYou see a bunch of parcans sitting on the floor next to the door to the roof. You can take them, but do you really want ALL of them?"
 			, 0);
 	static Item bookbag = new Item ("A Bookbag" , "Bookbag", "It holds things. Very useful. [this is your inventory]" , "\nYou see a book bag sitting "
@@ -298,8 +290,8 @@ public class Item {
     		"You see a worklight, minding its own business. That looks useful...", 0);
     static Item extCord = new Item ("An extension cord" , "Extension Cord" , "A long cord that plugs into an outlet at one end, anything you want at "
     		+ "the other.", "You find an extension cord, sitting around, minding its own business", 2, 15);//has a length of 15
-    static Item screws = new Item ("A few 1 5/8 inch screws" , "Screw" , "Screws. That are 1 5/8 inches long. And there are four of them", "\nYou find four "
-    		+ "screws next to the saw. Maybe you can use them to put things together" , 0, 4, null);
+    static Item screws = new Item ("A few 1 5/8 inch screws" , "Screw" , "Screws. That are 1 5/8 inches long. And there are four of them", "\nYou find "
+    		+ "four screws next to the saw. Maybe you can use them to put things together" , 0, 4, null);
     static Item gum = new Item ("A package of gum" , "Gum" , "A package of gum. I think it's mint??" , "You find a package of gum. Might as well chew "
     		+ "it...." , 3, 12, EmptyItem.gumPack);
 	static Item tupperware = new Item ("A TupperWare Container" , "Tupperware" , "A tupperware container. Perfect for holding food." , "You find a "

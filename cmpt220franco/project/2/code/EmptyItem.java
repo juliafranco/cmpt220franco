@@ -16,5 +16,4 @@ public class EmptyItem extends Item {
 			+ "gaff tape. How useful.", 0);
 	static EmptyItem gumPack = new EmptyItem ("An empty package of gum" , "Gum package" , "An empty package of disappointment.", 
 			"You find an empty package that once held gum. But no more...", 0);
-	
 }

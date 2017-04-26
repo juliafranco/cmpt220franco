@@ -11,13 +11,13 @@ public class CombinedItem extends Item {
 		itemName = item1.combineKey + "-" + item2.combineKey;
 		combineKey = itemName; //for numbers, add them.
 		itemDescript = "A combination of " + item1.itemName + " and " + item2.itemName +".";
-		inLocationDescript = "\nYou find a combination of " + item1.itemName + " and " + item2.itemName + 
-				", just hanging around."; 
+		inLocationDescript = "\nYou find a combination of " + item1.itemName + " and " + item2.itemName + ", just hanging around."
+				+ " It currently has a length of " + this.length + "ft and " + ((this.type == 1) ? "can" : "cannot" ) +" grasp the wrench"; 
 		length = item1.length + item2.length;
 		//for the true false atrributes, do an "or" so if one has it, the combination has it.
 		if (item1.type == 1 || item2.type == 1) {//1 is the capture type
 			capture = true;
-			type =1;} //sets it as a capture type item for further combinations.
+			type = 1;} //sets it as a capture type item for further combinations.
 		if (item1.type == 0  || item2.type == 0){//0 is the "uncombinable" type
 			System.out.print(" but it just makes something horrifying");//adds on when it prints out.
 		}
@@ -75,12 +75,9 @@ public class CombinedItem extends Item {
 				System.out.println("\nYou split the " + itemToSplit.itemName + " into its pieces: " +itemToSplit.part1.itemName + " and " 
 				+ itemToSplit.part2.itemName);
 			} else {
-				System.out.println("You can't split an item you don't have.");
-				}
+				System.out.println("You can't split an item you don't have.");}
 			}
-		
 	} catch (java.lang.ClassCastException ex){
-		System.out.println("That item is not a combined item, therefore you can't split it.");
-	}
+		System.out.println("That item is not a combined item, therefore you can't split it.");}
 	}	
 }//end of class

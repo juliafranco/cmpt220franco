@@ -27,10 +27,7 @@ public class MainFile {
 			
 			/**basic game functions*/
 			if (todo.equalsIgnoreCase("quit")){//if the user wants to get out of the game.
-				if (Person.player.locationIndex == 12)//this is the ending if you quit out of the Depths of the Hudson.
-					displayQuit(8);
-				else 
-					displayQuit(0);//calls the quit function with the correct ending (quit code, tells switch ending to print)
+				displayQuit(((Person.player.locationIndex == 12))? 8 :0); //if you're in location 12, print ending 8. else print ending 0.
 				break;
 			} else if (todo.equalsIgnoreCase("Nirvana?")){//this is a random ending used to test if switch cases had to be sequential and left because it's funny.
 				displayQuit(4);
@@ -114,14 +111,12 @@ public class MainFile {
 			
 			else if (todo.equalsIgnoreCase("take")){
 				if (!Person.player.inventoryEnabled){
-					if (nameOfThing.equalsIgnoreCase(Item.bookbag.itemName)){
-						System.out.println("\nYou pick up the book bag. You are now able to hold an inventory in it.");
-						Person.player.enableInventory();
-						continue;
-					} else {
+					if (nameOfThing.equalsIgnoreCase(Item.bookbag.itemName) || nameOfThing.equalsIgnoreCase(Item.bookbag.combineKey))
+						Person.player.determineAddItem(nameOfThing);
+					else {
 						System.out.println("\nYou don't take the item because you have no way of holding it other than in your hands, "
 								+ "which \nwould just be annoying. Maybe find something to put it in?");
-						continue;}
+						} continue;
 				} else if (!(Location.places[Person.player.locationIndex].isItEmpty())){//if there's something there.
 					if (nameOfThing.equals("")){ //if you don't specify an item.
 						System.out.print("\nPlease specify an item to take or hit enter to continue.\n");
@@ -132,8 +127,7 @@ public class MainFile {
 						nameOfThing = getSecondaryInput();
 						if (nameOfThing.equals(""))
 							continue;}
-					Person.player.determineAddItem(nameOfThing);
-					}
+					Person.player.determineAddItem(nameOfThing);}
 				}//closes take function
 			
 			else if (todo.equalsIgnoreCase("steal")){
@@ -408,9 +402,9 @@ public class MainFile {
 		//need to reset the attributes of the player.
 		Person.player.playerReset();
     }
-    public static String[] splitInput(String StringToSplit, String splitKey){
-    	String[] splits = StringToSplit.split(splitKey);
-    	return splits;
+    public static String[] splitInput(String StringToSplit, String splitKey){ //splits a string based on a key
+    	String[] splits = StringToSplit.split(splitKey); //this key is what it's looking for, keeping what's on each side of it
+    	return splits; //the list of pieces that the code is looking for
     }
     
     /**Generates random numbers for various game functions*/
